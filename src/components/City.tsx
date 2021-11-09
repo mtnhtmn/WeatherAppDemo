@@ -9,26 +9,26 @@ const City = () => {
         return res.json()
     }
 
-    const {data, status} = useQuery('city', fetchCity)
+    // const {data, status} = useQuery('city', fetchCity)
 
-    let city;
-    if(status === 'success'){
-        city = data[0]
-    }
+    // let city;
+    // if(status === 'success'){
+    //     city = data[0]
+    // }
 
     return (
         <div>
-            {status === 'error' && (
-                <div>Error fetching data</div>
-            )}
-            {status === 'loading' && (
-                <div>Loading data</div>
-            )}
-            {status === 'success' && city ? (
-                <div>
-                    {city.EnglishName}
-                </div>
-            ) : null}
+            {/*{status === 'error' && (*/}
+            {/*    <div>Error fetching data</div>*/}
+            {/*)}*/}
+            {/*{status === 'loading' && (*/}
+            {/*    <div>Loading data</div>*/}
+            {/*)}*/}
+            {/*{status === 'success' && city ? (*/}
+            {/*    <div>*/}
+            {/*        {city.EnglishName}*/}
+            {/*    </div>*/}
+            {/*) : null}*/}
         </div>
     );
 };
