@@ -1,37 +1,24 @@
 import React, {useRef, useState} from 'react';
-import {useQuery} from "react-query";
 
 
-const AutoComplete = () => {
+interface IProps  {
+    inputValue:string;
+    onInputChange:(value:string)=>void;
+    //you want your type are like TCityData[] but if you will use this component with let say other types you can use TCityData so its have to be Generic Type
+    data: any[] // Generic like variable but as a type
+    renderListItem:(item:any)=>JSX.Element
+}
 
-    const [inputValue, setInputValue] = useState('')
-    const [open, setOpen] = useState(false)
+
+const AutoComplete = ({data,renderListItem,inputValue,onInputChange}: IProps) => {
+
     const inputRef = useRef<HTMLInputElement>(null)
-    const result = [{name: 'moshe'}, {name: 'moshe'}, {name: 'moshe'}, {name: 'moshe'}]
-
-    const fetchCity = async (inputValue:string) => {
-        if(inputValue){
-            const res = await fetch(`http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=xevDxA5DrqpWPmxG3UWazN5As6P6poAw&q=${inputValue}`)
-            return res.json()
-        }
-        throw new Error('no inputValue')
-    }
-
-    const {data, refetch ,status} = useQuery('city', ()=>fetchCity(inputValue),{ enabled: false })
-
-    React.useEffect(()=>{
-        if(inputValue){
-            refetch()
-        }
-    },[inputValue])
-
-    console.log(data);
+    const [open, setOpen] = useState(false)
 
     return (
         <div style={{position:'relative'}}>
-
             <input style={{height:30}} value={inputValue} onChange={(e)=>{
-                setInputValue(e.target.value)
+                onInputChange(e.target.value)
             }} ref={inputRef} onBlur={() => {
                 setOpen(false)
             }} onFocus={() => {
@@ -47,20 +34,16 @@ const AutoComplete = () => {
                 border: '1px solid black',
                 width: inputRef?.current?.clientWidth
             }}>
-                {result.map((item, index) => {
+                {(data?? []).map((city:any, index) => {
                     return (
                         <>
-                            <div style={{padding: 20, display: 'flex', alignItems: 'center', height: 50}} key={index}>
-                                {item.name}
-                            </div>
-                            {index < result.length - 1 && <hr style={{margin: 0}}/>}
+                            {renderListItem(city)}
+                            {index < data.length - 1 && <hr style={{margin: 0}}/>}
                         </>
-
                     )
                 })}
             </div> : null}
         </div>
-
     );
 };
 

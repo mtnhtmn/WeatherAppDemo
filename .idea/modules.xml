@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/weather-app-bootcamp.iml" filepath="$PROJECT_DIR$/.idea/weather-app-bootcamp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/matanc.iml" filepath="$PROJECT_DIR$/.idea/matanc.iml" />
     </modules>
   </component>
 </project>

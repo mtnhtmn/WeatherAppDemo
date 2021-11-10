@@ -1,14 +1,24 @@
 import React from 'react';
-import City from "../components/City";
-import AutoComplete from "../components/AutoComplete";
+import Header from "../container/Header";
 
 const HomePage = () => {
     return (
         <div>
-            <City/>
-            <AutoComplete/>
+            <Header/>
         </div>
     );
 };
 
 export default HomePage;
+
+//
+// const citiesList = data.map((city:any,index:number) => {
+//     return (
+//         <>
+//             <div style={{padding: 20, display: 'flex', alignItems: 'center', height: 50}} key={city.Key}>
+//                 {city.LocalizedName}
+//             </div>
+//             {index < data.length - 1 && <hr style={{margin: 0}}/>}
+//         </>
+//     )
+// })
