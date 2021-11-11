@@ -1,13 +1,23 @@
 import React, { useRef, useState } from 'react';
+import styled from 'styled-components';
 
 interface IProps {
   inputValue:string;
   onInputChange:(value:string)=>void;
-  // you want your type are like TCityData[] but if you
-  // will use this component with let say other types you can use TCityData so its have to be Generic Type
-  data: any[] // Generic like variable but as a type
+  data: any[];
   renderListItem:(item:any)=>JSX.Element
 }
+
+const Window = styled.div`
+  position: absolute;
+  display: flex;
+  overflow: auto;
+  flexDirection: column;
+  top: inputRef?.current?.clientHeight ? inputRef.current.clientHeight + 10 : 0;
+  height: 100;
+  border: 1px solid black;
+  width: inputRef?.current?.clientWidth;
+`;
 
 const AutoComplete = function ({
   data, renderListItem, inputValue, onInputChange,
@@ -34,14 +44,7 @@ const AutoComplete = function ({
       />
       {open ? (
         <div style={{
-          position: 'absolute',
-          display: 'flex',
-          overflow: 'auto',
-          flexDirection: 'column',
-          top: inputRef?.current?.clientHeight ? inputRef.current.clientHeight + 10 : 0,
-          height: 100,
-          border: '1px solid black',
-          width: inputRef?.current?.clientWidth,
+
         }}
         >
           {(data ?? []).map((city:any, index) => (
