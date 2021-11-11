@@ -1,11 +1,9 @@
 import React from 'react';
 
-const FavoritePage = () => {
-    return (
-        <div>
-            
-            </div>
-    );
+const FavoritePage = function () {
+  return (
+    <div />
+  );
 };
 
 export default FavoritePage;
