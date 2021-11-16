@@ -1,6 +1,5 @@
 import React, {useRef, useState} from 'react';
 import styled from 'styled-components';
-import {WindowComponent} from "../styles/Window.styles";
 import {log} from "util";
 
 
@@ -16,7 +15,54 @@ const Input = styled.input`
   color: #222222;
 `
 
-export interface ISearchProps<T> {
+interface IWindowProps {
+    top: number
+    width: number
+}
+
+const Window = styled.div<IWindowProps>`
+  position: absolute;
+  display: flex;
+  overflow: hidden;
+  flex-direction: column;
+  top: ${(props: IWindowProps) => `${props.top}px`};
+  height: 250px;
+  border: 1px solid black;
+  width: ${(props: IWindowProps) => `${props.width}px`};
+  background: #FFFFFF;
+  box-shadow: 0 4px 80px rgba(0, 0, 0, 0.16);
+  border-radius: 30px;
+`;
+
+const WindowInner = styled.div`
+  overflow-y: auto;
+  margin:20px 10px 20px 0;
+  ::-webkit-scrollbar {
+    width: 16px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 15px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: blue;
+    border-radius: 15px;
+  }
+`;
+
+const WindowItem = styled.div`
+  cursor: pointer;
+  
+  :hover {
+    background-color: gray;
+    border-radius: 15px;
+  }
+
+`
+
+interface ISearchProps<T> {
     inputValue: string;
     onInputChange: (value: string) => void;
     data: T[] | undefined;
@@ -41,6 +87,7 @@ export const Search = function <T extends any>({
     const inputRef = useRef<HTMLInputElement>(null);
     const [open, setOpen] = useState(false);
 
+
     return (
         <div style={{position: 'relative'}} {...props}>
             <Input
@@ -51,7 +98,7 @@ export const Search = function <T extends any>({
                 }}
                 ref={inputRef}
                 onBlur={(e) => {
-                    setOpen(false);
+                     setOpen(false);
                 }}
                 onFocus={() => {
                     setOpen(true);
@@ -60,23 +107,23 @@ export const Search = function <T extends any>({
                 placeholder={'Try “Tel Aviv - Jaffo"...'}
             />
 
-            {open && (
-                <WindowComponent width={10}
-                                 top={inputRef && inputRef.current ? inputRef.current?.clientHeight + 10 : 0}>
+            {open && inputRef && inputRef.current && (
+                <Window width={inputRef.current.clientWidth} top={inputRef.current.clientHeight + 10}>
+                    <WindowInner>
+                        {data ? data.map((item: T, index) => (
+                            <WindowItem onMouseDown={(e) => {
+                                e.preventDefault()
+                            }} onClick={(e) => {
+                                onListItemClick(item)
 
-                    {data ? data.map((item: T, index) => (
-                        <div onMouseDown={(e) => {
-                            e.preventDefault()
-                        }} onClick={(e) => {
-                            onListItemClick(item)
+                            }} key={getKey(item)}>
+                                {renderListItem(item)}
+                                {index < data.length - 1}
+                            </WindowItem>
+                        )) : []}
 
-                        }} key={getKey(item)}>
-                            {renderListItem(item)}
-                            {index < data.length - 1}
-                        </div>
-                    )) : []}
-
-                </WindowComponent>
+                    </WindowInner>
+                </Window>
             )}
         </div>
     );
