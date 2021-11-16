@@ -1,8 +1,7 @@
-import React, {useRef, useState } from 'react';
+import React, {useRef, useState} from 'react';
 import styled from 'styled-components';
 import {WindowComponent} from "../styles/Window.styles";
 import {log} from "util";
-
 
 
 const Input = styled.input`
@@ -18,58 +17,69 @@ const Input = styled.input`
 `
 
 export interface ISearchProps<T> {
-  inputValue:string;
-  onInputChange:(value:string)=>void;
-  data: T[];
-  renderListItem:(item:T)=>JSX.Element
-  onListItemClick:(item:T)=>void;
-  placeholder?: string
-  variant?: 'primary' | 'secondary'
+    inputValue: string;
+    onInputChange: (value: string) => void;
+    data: T[] | undefined;
+    renderListItem: (item: T) => JSX.Element
+    onListItemClick: (item: T) => void;
+    getKey: (item: T) => string | number;
+    placeholder?: string
+    variant?: 'primary' | 'secondary'
 }
 
-export const Search = function<T extends any> ({data, renderListItem, inputValue, onInputChange,onListItemClick, placeholder, variant, ...props
-}: ISearchProps<T>) {
-  const inputRef = useRef<HTMLInputElement>(null);
-  const [open, setOpen] = useState(false);
+export const Search = function <T extends any>({
+                                                   data,
+                                                   renderListItem,
+                                                   inputValue,
+                                                   onInputChange,
+                                                   onListItemClick,
+                                                   placeholder,
+                                                   getKey,
+                                                   variant,
+                                                   ...props
+                                               }: ISearchProps<T>) {
+    const inputRef = useRef<HTMLInputElement>(null);
+    const [open, setOpen] = useState(false);
 
-  console.log(data)
+    return (
+        <div style={{position: 'relative'}} {...props}>
+            <Input
+                style={{height: 30}}
+                value={inputValue}
+                onChange={(e) => {
+                    onInputChange(e.target.value);
+                }}
+                ref={inputRef}
+                onBlur={(e) => {
+                    setOpen(false);
+                }}
+                onFocus={() => {
+                    setOpen(true);
+                }}
+                type="text"
+                placeholder={'Try “Tel Aviv - Jaffo"...'}
+            />
 
+            {open && (
+                <WindowComponent width={10}
+                                 top={inputRef && inputRef.current ? inputRef.current?.clientHeight + 10 : 0}>
 
-  return (
-    <div style={{ position: 'relative' }} {...props}>
-      <Input
-        style={{ height: 30 }}
-        value={inputValue}
-        onChange={(e) => {
-          onInputChange(e.target.value);
-        }}
-        ref={inputRef}
-        onBlur={(e) => {
-            setOpen(false);
-        }}
-        onFocus={() => {
-          setOpen(true);
-        }}
-        type="text"
-        placeholder={'Try “Tel Aviv - Jaffo"...'}
-      />
+                    {data ? data.map((item: T, index) => (
+                        <div onMouseDown={(e) => {
+                            e.preventDefault()
+                        }} onClick={(e) => {
+                            onListItemClick(item)
 
-      {open && (
-        <WindowComponent  width={10} top={inputRef && inputRef.current ? inputRef.current?.clientHeight+10 : 0} >
-          {(data ?? []).map((item:any, index) => (
-            <div onMouseDown={(e)=>{
-              e.preventDefault()
-            }} onClick={(e) => {
-              onListItemClick(item)
-            }} key={item.Key}>
-              {renderListItem(item)}
-              {index < data.length - 1 }
-            </div>
-          ))}
-        </WindowComponent>
-      )}
-    </div>
-  );
+                        }} key={getKey(item)}>
+                            {renderListItem(item)}
+                            {index < data.length - 1}
+                        </div>
+                    )) : []}
+
+                </WindowComponent>
+            )}
+        </div>
+    );
 };
 
 export default Search;
