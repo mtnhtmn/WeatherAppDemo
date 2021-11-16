@@ -1,6 +1,6 @@
 import React from 'react'
 import {Meta, Story} from '@storybook/react'
-import {Search, ISerachProps} from '../components/Search'
+import {Search, ISearchProps} from '../components/Search'
 
 const meta: Meta = {
     title: 'Input',

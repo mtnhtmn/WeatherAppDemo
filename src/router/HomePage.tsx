@@ -1,12 +1,21 @@
 import React from 'react';
 import Header from '../container/Header';
+import styled, {createGlobalStyle} from "styled-components";
+
+const GlobalStyle = createGlobalStyle`
+  body {
+    background: linear-gradient(194.59deg, #47BFDF 47.43%, #4A91FF 133.36%), #FFFFFF;
+  }
+
+`
 
 const HomePage = function () {
-  return (
-    <div>
-      <Header />
-    </div>
-  );
+    return (
+        <div>
+            <GlobalStyle/>
+            <Header/>
+        </div>
+    );
 };
 
 export default HomePage;

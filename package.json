@@ -11,7 +11,7 @@
     "build-storybook": "build-storybook"
   },
   "husky": {
-   "hooks": {
+    "hooks": {
       "pre-commit": "npm run lint"
     }
   },
