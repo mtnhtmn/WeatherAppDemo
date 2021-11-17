@@ -2,9 +2,13 @@ import React, {useState} from 'react';
 import {useQuery} from 'react-query';
 import Search from '../components/Search';
 import {fetchCity, fetchWeather} from '../services/api'
+import {useDispatch} from "react-redux";
+import {weatherReceived} from "../store/slices/weatherSlice";
+import {getCurrentCity} from "../store/slices/citySlice";
+import {AppDispatch} from "../store/store";
 
 
-interface ICity {
+export interface ICity {
     Key: string;
     LocalizedName: string;
     Country: {LocalizedName: string}
@@ -15,11 +19,10 @@ const Header = function () {
     const [selectedCity, setSelectedCity] = useState<ICity | null>(null)
     const {data:cityData, refetch:getCity} = useQuery<ICity[]>('cityData', () => fetchCity(inputValue), {enabled: false});
     const {data:cityWeatherData, refetch:getCityWeather} = useQuery('cityWeather', () => selectedCity && fetchWeather(selectedCity.Key), {enabled: false})
-
+    const dispatch = useDispatch<AppDispatch>()
     //add dispatch to redux with useEffect if cityWeatherData is true
     //useSelector from redux on Home component to display current city weather, pass it through router
-    console.log('cityData',cityData);
-    console.log('cityWeatherData',cityWeatherData);
+
 
     React.useEffect(() => {
         if (inputValue) {
@@ -31,6 +34,13 @@ const Header = function () {
             getCityWeather()
         }
     }, [selectedCity]);
+
+    React.useEffect(() => {
+        if (cityWeatherData && selectedCity) {
+            dispatch(weatherReceived(cityWeatherData))
+            dispatch(getCurrentCity(selectedCity))
+        }
+    }, [cityWeatherData, selectedCity])
 
     return (
         <div>

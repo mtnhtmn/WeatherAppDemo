@@ -113,15 +113,15 @@ export const Search = function <T extends any>({
                         {data ? data.map((item: T, index) => (
                             <WindowItem onMouseDown={(e) => {
                                 e.preventDefault()
-                            }} onClick={(e) => {
+                            }} onClick={() => {
                                 onListItemClick(item)
+                                setOpen(false)
 
                             }} key={getKey(item)}>
                                 {renderListItem(item)}
                                 {index < data.length - 1}
                             </WindowItem>
                         )) : []}
-
                     </WindowInner>
                 </Window>
             )}

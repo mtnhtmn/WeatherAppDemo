@@ -1,4 +1,5 @@
-import {createSlice} from "@reduxjs/toolkit";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {ICity} from "../../container/Header";
 
 export interface CityState {
     city: any
@@ -12,12 +13,12 @@ export const citySlice = createSlice({
     name: 'city',
     initialState,
     reducers: {
-        getCity: (state,action) => {
+        getCurrentCity: (state, action:PayloadAction<ICity>) => {
             state.city = action.payload
         }
     }
 })
 
-export const {getCity} = citySlice.actions
+export const {getCurrentCity} = citySlice.actions
 
 export default citySlice.reducer
