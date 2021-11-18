@@ -1,18 +1,18 @@
 import React, {useRef, useState} from 'react';
 import styled from 'styled-components';
-import {log} from "util";
 
 
 const Input = styled.input`
   height: 30px;
   background: #FFFFFF;
   box-shadow: inset 2px -3px 6px rgba(0, 0, 0, 0.1), inset -6px 4px 4px rgba(255, 255, 255, 0.1);
-  border-radius: 15px;
+  border-radius: 10px;
   font-style: normal;
-  font-weight: 600;
+  font-weight: 400;
   font-size: 20px;
   line-height: 31px;
   color: #222222;
+  margin-left: 200px;
 `
 
 interface IWindowProps {
@@ -32,6 +32,7 @@ const Window = styled.div<IWindowProps>`
   background: #FFFFFF;
   box-shadow: 0 4px 80px rgba(0, 0, 0, 0.16);
   border-radius: 30px;
+  margin-left: 200px;
 `;
 
 const WindowInner = styled.div`
@@ -95,6 +96,7 @@ export const Search = function <T extends any>({
                 value={inputValue}
                 onChange={(e) => {
                     onInputChange(e.target.value);
+                    setOpen(true)
                 }}
                 ref={inputRef}
                 onBlur={(e) => {
@@ -108,7 +110,7 @@ export const Search = function <T extends any>({
             />
 
             {open && inputRef && inputRef.current && (
-                <Window width={inputRef.current.clientWidth} top={inputRef.current.clientHeight + 10}>
+                <Window width={inputRef.current.clientWidth} top={inputRef.current.clientHeight + 7}>
                     <WindowInner>
                         {data ? data.map((item: T, index) => (
                             <WindowItem onMouseDown={(e) => {

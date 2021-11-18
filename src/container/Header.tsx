@@ -20,8 +20,6 @@ const Header = function () {
     const {data:cityData, refetch:getCity} = useQuery<ICity[]>('cityData', () => fetchCity(inputValue), {enabled: false});
     const {data:cityWeatherData, refetch:getCityWeather} = useQuery('cityWeather', () => selectedCity && fetchWeather(selectedCity.Key), {enabled: false})
     const dispatch = useDispatch<AppDispatch>()
-    //add dispatch to redux with useEffect if cityWeatherData is true
-    //useSelector from redux on Home component to display current city weather, pass it through router
 
 
     React.useEffect(() => {
