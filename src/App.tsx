@@ -12,7 +12,6 @@ import FavoritePage from "./router/FavoritePage";
 const queryClient = new QueryClient()
 
 
-
 function App() {
 
     return (

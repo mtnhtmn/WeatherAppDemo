@@ -14,3 +14,9 @@ export const fetchWeather = async (cityKey : string) => {
     const data = await res.json()
     return data
 }
+
+export const fetchForecast = async (cityKey: string) => {
+    const res = await fetch(`http://dataservice.accuweather.com/forecasts/v1/daily/5day/${cityKey}?apikey=xevDxA5DrqpWPmxG3UWazN5As6P6poAw`)
+    const data = await res.json()
+    return data
+}

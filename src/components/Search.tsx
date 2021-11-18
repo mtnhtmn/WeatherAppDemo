@@ -2,6 +2,21 @@ import React, {useRef, useState} from 'react';
 import styled from 'styled-components';
 
 
+ const media = {
+    mobile: `(max-width: 900px)`
+}
+
+
+
+const InputWrap = styled.div`
+  position: relative;
+  
+  @media ${media.mobile} {
+    display: none;
+  }
+
+`
+
 const Input = styled.input`
   height: 30px;
   background: #FFFFFF;
@@ -13,6 +28,8 @@ const Input = styled.input`
   line-height: 31px;
   color: #222222;
   margin-left: 200px;
+  
+  
 `
 
 interface IWindowProps {
@@ -33,6 +50,8 @@ const Window = styled.div<IWindowProps>`
   box-shadow: 0 4px 80px rgba(0, 0, 0, 0.16);
   border-radius: 30px;
   margin-left: 200px;
+
+  
 `;
 
 const WindowInner = styled.div`
@@ -51,6 +70,7 @@ const WindowInner = styled.div`
     background: blue;
     border-radius: 15px;
   }
+  
 `;
 
 const WindowItem = styled.div`
@@ -60,6 +80,7 @@ const WindowItem = styled.div`
     background-color: gray;
     border-radius: 15px;
   }
+  
 
 `
 
@@ -90,9 +111,8 @@ export const Search = function <T extends any>({
 
 
     return (
-        <div style={{position: 'relative'}} {...props}>
+        <InputWrap  {...props}>
             <Input
-                style={{height: 30}}
                 value={inputValue}
                 onChange={(e) => {
                     onInputChange(e.target.value);
@@ -127,7 +147,7 @@ export const Search = function <T extends any>({
                     </WindowInner>
                 </Window>
             )}
-        </div>
+        </InputWrap>
     );
 };
 

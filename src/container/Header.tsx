@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
 import {useQuery} from 'react-query';
 import Search from '../components/Search';
-import {fetchCity, fetchWeather} from '../services/api'
+import {fetchCity, fetchForecast, fetchWeather} from '../services/api'
 import {useDispatch} from "react-redux";
 import {weatherReceived} from "../store/slices/weatherSlice";
 import {getCurrentCity} from "../store/slices/citySlice";
+import {forecastReceived} from '../store/slices/ForecastSlice'
 import {AppDispatch} from "../store/store";
 
 
@@ -19,8 +20,8 @@ const Header = function () {
     const [selectedCity, setSelectedCity] = useState<ICity | null>(null)
     const {data:cityData, refetch:getCity} = useQuery<ICity[]>('cityData', () => fetchCity(inputValue), {enabled: false});
     const {data:cityWeatherData, refetch:getCityWeather} = useQuery('cityWeather', () => selectedCity && fetchWeather(selectedCity.Key), {enabled: false})
+    const {data:cityForecastData, refetch:getForecast} = useQuery('cityForecast', () => selectedCity && fetchForecast(selectedCity.Key), {enabled: false})
     const dispatch = useDispatch<AppDispatch>()
-
 
     React.useEffect(() => {
         if (inputValue) {
@@ -30,15 +31,17 @@ const Header = function () {
     React.useEffect(() => {
         if (selectedCity) {
             getCityWeather()
+            getForecast()
         }
     }, [selectedCity]);
 
     React.useEffect(() => {
-        if (cityWeatherData && selectedCity) {
+        if (cityWeatherData && selectedCity && cityForecastData ) {
             dispatch(weatherReceived(cityWeatherData))
             dispatch(getCurrentCity(selectedCity))
+            dispatch(forecastReceived(cityForecastData))
         }
-    }, [cityWeatherData, selectedCity])
+    }, [cityWeatherData, selectedCity, cityForecastData])
 
     return (
         <div>
