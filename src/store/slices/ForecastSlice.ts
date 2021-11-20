@@ -5,7 +5,7 @@ export interface CityState {
 }
 
 const initialState: CityState = {
-    forecastData: null
+    forecastData: []
 }
 
 export const forecastSlice = createSlice({
@@ -13,6 +13,7 @@ export const forecastSlice = createSlice({
     initialState,
     reducers: {
         forecastReceived: (state,action) => {
+            debugger
             state.forecastData = action.payload
         }
     }

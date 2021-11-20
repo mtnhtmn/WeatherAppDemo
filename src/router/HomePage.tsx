@@ -1,13 +1,13 @@
 import React from 'react';
 import Header from '../container/Header';
 import styled, {createGlobalStyle} from "styled-components";
-import Dashboard from "../components/dashboard";
 import Subtract from "../svg/Subtract";
 import WeatherApp from "../svg/WeatherApp";
 import {Link} from "react-router-dom";
 import Vector from "../svg/Vector";
 import VectorMobile from '../svg/VectorMobile'
 import MobileMenu from '../svg/MobileMenu';
+import Dashboard from '../components/Dashboard';
 
 const media = {
     mobile: `(max-width: 900px)`,

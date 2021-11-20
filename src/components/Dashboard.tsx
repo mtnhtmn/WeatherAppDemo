@@ -39,6 +39,7 @@ const TemperatureNumber = styled.div`
   font-size: 73px;
   color: #FFFFFF;
   height: 120px;
+  
 
 `
 
@@ -70,18 +71,19 @@ const Dashboard = () => {
     const selectedWeatherData = useStore(store => store.weatherReducer.weatherData)
     const selectedCity = useStore(store => store.cityReducer.city)
     const selectedForecast = useStore(store => store.forecastReducer.forecastData)
-    const date = new Date
+    const date = new Date(selectedWeatherData[0].LocalObservationDateTime)
     if (selectedWeatherData && selectedCity && selectedForecast) {
         console.log(selectedWeatherData[0])
         console.log(selectedCity)
         console.log(selectedForecast.DailyForecasts)
     }
-
-    // const displayForecast = selectedForecast?.DailyForecasts?.map((forecast: any) => (
+    //
+    // const displayForecast = selectedForecast.DailyForecasts.map((forecast: any) => (
     //     <div>
     //         {forecast.Temperature.Mininum.Value}
     //     </div>
     // ))
+
 
     return (
         <WeatherWrap>
@@ -100,9 +102,9 @@ const Dashboard = () => {
                     {selectedWeatherData[0].WeatherText}
                 </WeatherText>
                 <CurrentDate>
-                    {date.toDateString(selectedWeatherData[0].LocalObservationDateTime)}
+                    {date.toDateString()}
                 </CurrentDate>
-
+                {/*{displayForecast}*/}
             </WeatherWrap> : null}
 
         </WeatherWrap>
