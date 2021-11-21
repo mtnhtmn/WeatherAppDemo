@@ -1,20 +1,21 @@
 import React, { useState } from 'react';
 import { useQuery } from 'react-query';
 import { useDispatch } from 'react-redux';
-import { NavLink, NavLinkProps } from 'react-router-dom';
 import styled from 'styled-components';
 import Search from '../Search';
-import { fetchCity, fetchForecast, fetchWeather } from '../../services/api';
+import {
+  fetchCity, fetchForecast, fetchHourlyForecast, fetchWeather,
+} from '../../services/api';
 import { weatherReceived } from '../../store/slices/weatherSlice';
 import { getCurrentCity, ICity } from '../../store/slices/citySlice';
-import { forecastReceived } from '../../store/slices/ForecastSlice';
+import { forecastReceived } from '../../store/slices/forecastSlice';
 import { AppDispatch } from '../../store/store';
 import Subtract from '../../svg/Subtract';
-import WeatherApp from '../../svg/WeatherApp';
 import MobileMenu from '../../svg/MobileMenu';
 import StarIcon from '../../svg/StarIcon.svg?component';
 import HomeIcon from '../../svg/HomeIcon.svg?component';
 import NavbarLink from './NavbarLink';
+import { hourlyForecastReceived } from '../../store/slices/hourlyForecast';
 
 const media = {
   mobile: '(max-width: 900px)',
@@ -76,6 +77,11 @@ const Header = function () {
     data: cityForecastData,
     refetch: getForecast,
   } = useQuery('cityForecast', () => selectedCity && fetchForecast(selectedCity.Key), { enabled: false });
+  const {
+    data: cityHourlyForecastData,
+    refetch: getHourlyForecast,
+  } = useQuery('cityHourlyForecast', () => selectedCity && fetchHourlyForecast(selectedCity.Key), { enabled: false });
+
   const dispatch = useDispatch<AppDispatch>();
 
   React.useEffect(() => {
@@ -87,15 +93,17 @@ const Header = function () {
     if (selectedCity) {
       getCityWeather();
       getForecast();
+      getHourlyForecast();
     }
   }, [getCityWeather, getForecast, selectedCity]);
   React.useEffect(() => {
-    if (cityWeatherData && selectedCity && cityForecastData) {
+    if (cityWeatherData && selectedCity && cityForecastData && cityHourlyForecastData) {
       dispatch(weatherReceived(cityWeatherData));
       dispatch(getCurrentCity(selectedCity));
       dispatch(forecastReceived(cityForecastData.DailyForecasts));
+      dispatch(hourlyForecastReceived(cityHourlyForecastData));
     }
-  }, [cityWeatherData, selectedCity, cityForecastData, dispatch]);
+  }, [cityWeatherData, selectedCity, cityForecastData, cityHourlyForecastData, dispatch]);
 
   return (
     <HeaderWrap>
