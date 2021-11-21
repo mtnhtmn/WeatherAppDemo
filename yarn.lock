@@ -2534,6 +2534,13 @@
     "@types/react" "*"
     csstype "^3.0.2"
 
+"@types/svgo@*":
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/@types/svgo/-/svgo-2.6.0.tgz#f0c50eed286422f63b4e3346d8a309b0ea67d58a"
+  integrity sha512-VSdhb3KTOglle1SLQD4+TB6ezj/MS3rN98gOUkXzbTUhG8VjFKHXN3OVgEFlTnW5fYBxt+lzZlD3PFqkwMj36Q==
+  dependencies:
+    "@types/node" "*"
+
 "@types/tapable@^1", "@types/tapable@^1.0.5":
   version "1.0.8"
   resolved "https://registry.yarnpkg.com/@types/tapable/-/tapable-1.0.8.tgz#b94a4391c85666c7b73299fd3ad79d4faa435310"
@@ -2550,6 +2557,15 @@
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/@types/unist/-/unist-2.0.6.tgz#250a7b16c3b91f672a24552ec64678eeb1d3a08d"
   integrity sha512-PBjIUxZHOuj0R15/xuwJYjFi+KZdNFrehocChv4g5hu6aFroHue8m0lBP0POdK2nKzbw0cgV1mws8+V/JAcEkQ==
+
+"@types/vite-plugin-react-svg@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@types/vite-plugin-react-svg/-/vite-plugin-react-svg-0.2.0.tgz#923095bef6e46026b5aec2796fef32ca14b4e762"
+  integrity sha512-6uljY2Kb/Z/B1FiHF6uRIXcNIQlypM93PcRoBrNhHCu3ZTkZK/nwaknGnWccT1wWaI1Lnfd/wvteIEetBNE59g==
+  dependencies:
+    "@types/react" "*"
+    "@types/svgo" "*"
+    vite "^2.3.8"
 
 "@types/webpack-env@^1.16.0":
   version "1.16.3"
@@ -10632,7 +10648,7 @@ vite-plugin-react-svg@^0.2.0:
     "@svgr/plugin-jsx" "^5.5.0"
     "@svgr/plugin-svgo" "^5.5.0"
 
-vite@^2.6.4:
+vite@^2.3.8, vite@^2.6.4:
   version "2.6.14"
   resolved "https://registry.yarnpkg.com/vite/-/vite-2.6.14.tgz#35c09a15e4df823410819a2a239ab11efb186271"
   integrity sha512-2HA9xGyi+EhY2MXo0+A2dRsqsAG3eFNEVIo12olkWhOmc8LfiM+eMdrXf+Ruje9gdXgvSqjLI9freec1RUM5EA==

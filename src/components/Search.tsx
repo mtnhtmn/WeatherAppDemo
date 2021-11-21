@@ -1,40 +1,48 @@
-import React, {useRef, useState} from 'react';
+import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
+import InputSearchIcon from '../svg/InputSearchIcon.svg?component';
 
+const media = {
+  mobile: '(max-width: 900px)',
+};
 
- const media = {
-    mobile: `(max-width: 900px)`
-}
-
-
-
-const InputWrap = styled.div`
+const SearchWrapper = styled.div`
+  display: flex;
+  align-items: center;
   position: relative;
+  height: 57px;
+  width: 366px;
+  background: #FFFFFF;
+  box-shadow: inset 2px -3px 6px rgba(0, 0, 0, 0.1), inset -6px 4px 4px rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+ 
+  color: #222222;
+  justify-content: space-between;
   
   @media ${media.mobile} {
     display: none;
   }
 
-`
+`;
 
 const Input = styled.input`
-  height: 30px;
-  background: #FFFFFF;
-  box-shadow: inset 2px -3px 6px rgba(0, 0, 0, 0.1), inset -6px 4px 4px rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
+  outline: none;
+  flex: 1;
+  border: none;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 600;
   font-size: 20px;
+  color: #BEBEBE;
+  padding-left: 19px;
   line-height: 31px;
-  color: #222222;
-  margin-left: 200px;
-  
-  
-`
+  ::placeholder { 
+    color: #BEBEBE;
+  }
+`;
 
 interface IWindowProps {
-    top: number
-    width: number
+  top: number
+  width: number
 }
 
 const Window = styled.div<IWindowProps>`
@@ -49,9 +57,7 @@ const Window = styled.div<IWindowProps>`
   background: #FFFFFF;
   box-shadow: 0 4px 80px rgba(0, 0, 0, 0.16);
   border-radius: 30px;
-  margin-left: 200px;
-
-  
+  align-self: flex-end;
 `;
 
 const WindowInner = styled.div`
@@ -82,73 +88,77 @@ const WindowItem = styled.div`
   }
   
 
-`
+`;
 
 interface ISearchProps<T> {
-    inputValue: string;
-    onInputChange: (value: string) => void;
-    data: T[] | undefined;
-    renderListItem: (item: T) => JSX.Element
-    onListItemClick: (item: T) => void;
-    getKey: (item: T) => string | number;
-    placeholder?: string
-    variant?: 'primary' | 'secondary'
+  inputValue: string;
+  onInputChange: (value: string) => void;
+  data: T[] | undefined;
+  renderListItem: (item: T) => JSX.Element
+  onListItemClick: (item: T) => void;
+  getKey: (item: T) => string | number;
+  placeholder?: string
+  variant?: 'primary' | 'secondary'
 }
 
-export const Search = function <T extends any>({
-                                                   data,
-                                                   renderListItem,
-                                                   inputValue,
-                                                   onInputChange,
-                                                   onListItemClick,
-                                                   placeholder,
-                                                   getKey,
-                                                   variant,
-                                                   ...props
-                                               }: ISearchProps<T>) {
-    const inputRef = useRef<HTMLInputElement>(null);
-    const [open, setOpen] = useState(false);
+const Search = function <T extends any>({
+  data,
+  renderListItem,
+  inputValue,
+  onInputChange,
+  onListItemClick,
+  placeholder,
+  getKey,
+  variant,
+  ...props
+}: ISearchProps<T>) {
+  const containerRef = useRef<HTMLInputElement>(null);
+  const [open, setOpen] = useState(false);
 
+  return (
+    <SearchWrapper ref={containerRef} {...props}>
+      <Input
+        value={inputValue}
+        onChange={(e) => {
+          onInputChange(e.target.value);
+          setOpen(true);
+        }}
+        onBlur={(e) => {
+          setOpen(false);
+        }}
+        onFocus={() => {
+          setOpen(true);
+        }}
+        type="text"
+        placeholder={'Try “Tel Aviv - Jaffo"...'}
+      />
+      <div style={{ paddingRight: 19, height: 33 }}>
+        <InputSearchIcon />
+      </div>
 
-    return (
-        <InputWrap  {...props}>
-            <Input
-                value={inputValue}
-                onChange={(e) => {
-                    onInputChange(e.target.value);
-                    setOpen(true)
-                }}
-                ref={inputRef}
-                onBlur={(e) => {
-                     setOpen(false);
-                }}
-                onFocus={() => {
-                    setOpen(true);
-                }}
-                type="text"
-                placeholder={'Try “Tel Aviv - Jaffo"...'}
-            />
-
-            {open && inputRef && inputRef.current && (
-                <Window width={inputRef.current.clientWidth} top={inputRef.current.clientHeight + 7}>
-                    <WindowInner>
-                        {data ? data.map((item: T, index) => (
-                            <WindowItem onMouseDown={(e) => {
-                                e.preventDefault()
-                            }} onClick={() => {
-                                onListItemClick(item)
-                                setOpen(false)
-
-                            }} key={getKey(item)}>
-                                {renderListItem(item)}
-                                {index < data.length - 1}
-                            </WindowItem>
-                        )) : []}
-                    </WindowInner>
-                </Window>
-            )}
-        </InputWrap>
-    );
+      {open && containerRef && containerRef.current && (
+      <Window width={containerRef.current.clientWidth} top={containerRef.current.clientHeight + 7}>
+        <WindowInner>
+          {data ? data.map((item: T, index) => (
+            <WindowItem
+              onMouseDown={(e) => {
+                e.preventDefault();
+              }}
+              onClick={() => {
+                onListItemClick(item);
+                setOpen(false);
+              }}
+              key={getKey(item)}
+            >
+              {renderListItem(item)}
+              {index < data.length - 1}
+            </WindowItem>
+          )) : []}
+        </WindowInner>
+      </Window>
+      )}
+    </SearchWrapper>
+  );
 };
 
 export default Search;

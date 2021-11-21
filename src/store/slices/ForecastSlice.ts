@@ -1,25 +1,23 @@
-import {createSlice} from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 export interface CityState {
-    forecastData: any
+  forecastData: any
 }
 
 const initialState: CityState = {
-    forecastData: []
-}
+  forecastData: [],
+};
 
 export const forecastSlice = createSlice({
-    name: 'forecast',
-    initialState,
-    reducers: {
-        forecastReceived: (state,action) => {
-            debugger
-            state.forecastData = action.payload
-        }
-    }
-})
+  name: 'forecast',
+  initialState,
+  reducers: {
+    forecastReceived: (state, action) => {
+      state.forecastData = action.payload;
+    },
+  },
+});
 
-export const {forecastReceived} = forecastSlice.actions
+export const { forecastReceived } = forecastSlice.actions;
 
-export default forecastSlice.reducer
-
+export default forecastSlice.reducer;

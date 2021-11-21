@@ -1,14 +1,14 @@
-import {configureStore} from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit';
 import cityReducer from './slices/citySlice';
-import weatherReducer from './slices/weatherSlice'
-import forecastReducer from './slices/ForecastSlice'
+import weatherReducer from './slices/weatherSlice';
+import forecastReducer from './slices/ForecastSlice';
 
 export const store = configureStore({
-    reducer: {
-        cityReducer,
-        weatherReducer,
-        forecastReducer
-    },
+  reducer: {
+    cityReducer,
+    weatherReducer,
+    forecastReducer,
+  },
 });
 
 export type RootState = ReturnType<typeof store.getState>;

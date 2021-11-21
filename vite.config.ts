@@ -1,18 +1,18 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import ViteFonts from 'vite-plugin-fonts'
-
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import ViteFonts from 'vite-plugin-fonts';
+import reactSvgPlugin from 'vite-plugin-react-svg';
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
-      react(),
+    react(),
     ViteFonts({
       google: {
-        families: ['Overpass']
+        families: ['Overpass'],
       },
-    })
-  ]
+    }),
+    reactSvgPlugin(),
+  ],
 
-})
-
+});

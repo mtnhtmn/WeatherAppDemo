@@ -25,8 +25,7 @@
     "react-query": "^3.32.1",
     "react-redux": "^7.2.6",
     "react-router-dom": "^6.0.1",
-    "styled-components": "^5.3.3",
-    "vite-plugin-react-svg": "^0.2.0"
+    "styled-components": "^5.3.3"
   },
   "devDependencies": {
     "@babel/core": "^7.16.0",
@@ -38,6 +37,7 @@
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "@types/styled-components": "^5.1.15",
+    "@types/vite-plugin-react-svg": "^0.2.0",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.3.1",
     "@vitejs/plugin-react": "^1.0.0",
@@ -52,6 +52,7 @@
     "husky": "^7.0.0",
     "typescript": "^4.3.2",
     "vite": "^2.6.4",
-    "vite-plugin-fonts": "^0.2.2"
+    "vite-plugin-fonts": "^0.2.2",
+    "vite-plugin-react-svg": "^0.2.0"
   }
 }
