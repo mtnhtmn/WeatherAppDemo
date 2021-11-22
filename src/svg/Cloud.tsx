@@ -2,8 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 
 const CloudWrap = styled.div`
-  float: left;
   height: 100px;
+  margin-left: -55px;
 
 `
 

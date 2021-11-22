@@ -64,16 +64,16 @@ const WindowInner = styled.div`
   overflow-y: auto;
   margin:20px 10px 20px 0;
   ::-webkit-scrollbar {
-    width: 16px;
+    width: 8px;
   }
 
   ::-webkit-scrollbar-track {
-    background: #f1f1f1;
+    background: #F2F1F1;
     border-radius: 15px;
   }
 
   ::-webkit-scrollbar-thumb {
-    background: blue;
+    background: gray;
     border-radius: 15px;
   }
   
@@ -83,8 +83,7 @@ const WindowItem = styled.div`
   cursor: pointer;
   
   :hover {
-    background-color: gray;
-    border-radius: 15px;
+    background-color: #F2F1F1;
   }
   
 

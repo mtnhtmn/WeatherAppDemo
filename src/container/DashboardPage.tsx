@@ -4,10 +4,10 @@ import styled from 'styled-components';
 import { RootState } from '../store/store';
 import Cloud from '../svg/Cloud';
 import Dots from '../svg/Dots';
+import StarIconButton from '../svg/StarIconButton.svg?component'
 
 const Container = styled.div`
   width: 100%;
-  border: 1px solid yellow;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -16,16 +16,43 @@ const Container = styled.div`
   margin-left: auto;
   padding-right: 250px;
   padding-left: 250px;
+  
 `;
 
 const WeatherWrap = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  border: 5px solid black;
   width: 100%;
 `;
+
+const CityWrap = styled.div`
+  margin-top: 80px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+`
+
+const FavoriteButton = styled.button`
+  outline: none;
+  width: 200px;
+  height: 60px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+  background: #FFFFFF;
+  box-shadow: inset 2px -3px 6px rgba(0, 0, 0, 0.1), inset -6px 4px 4px rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 15px;
+  line-height: 31px;
+  gap: 5px;
+  &:hover {
+    cursor: pointer;
+  }
+
+`
 
 const CityName = styled.div`
   font-style: normal;
@@ -34,13 +61,12 @@ const CityName = styled.div`
   line-height: 34px;
   color: #FFFFFF;
   text-shadow: -2px 3px 1px rgba(0, 0, 0, 0.1);
+  
 `;
 
 const Temperature = styled.div`
   display: flex;
-  justify-content: space-between;
   line-height: 135px;
-  border: 2px solid deeppink;
 
 `;
 
@@ -51,24 +77,24 @@ const TemperatureNumber = styled.div`
   color: #FFFFFF;
   height: 120px;
 
-
 `;
 
 const WeatherText = styled.div`
   font-style: normal;
-  font-weight: bold;
+  font-weight: normal;
   font-size: 24px;
   line-height: 37px;
   color: #FFFFFF;
   opacity: 0.6;
   text-shadow: -2px 3px 1px rgba(0, 0, 0, 0.1);
+  
 
 `;
 
 const CurrentDate = styled.div`
   font-style: normal;
-  font-weight: normal;
-  font-size: 16px;
+  font-weight: lighter;
+  font-size: 19px;
   line-height: 25px;
   color: #FFFFFF;
   opacity: 0.6;
@@ -82,6 +108,7 @@ const ForecastWrapper = styled.div`
   border-radius: 20px;
   display: flex;
   justify-content: space-between;
+  margin-top: 60px;
 `;
 
 const DailyForecastItemWrapper = styled.div`
@@ -117,14 +144,10 @@ const ForecastItemTemperature = styled.div`
 const HourlyForecastWrapper = styled.div`
   margin-top: 100px;
   height: 181px;
-  border: 1px solid #FFFFFF;
   box-sizing: border-box;
   display: flex;
   justify-content: space-between;
   
- 
-    
-    
 
 `;
 
@@ -152,6 +175,12 @@ const HourlyForecastItemTemperature = styled.div`
   
 `;
 
+const Wrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  
+`
+
 const DashboardPage = function () {
   const useStore: TypedUseSelectorHook<RootState> = useSelector;
   const selectedWeatherData = useStore((store) => store.weatherReducer.weatherData);
@@ -167,7 +196,7 @@ const DashboardPage = function () {
 
   const date = React.useMemo(() => {
     if (selectedWeatherData) {
-      return new Date(selectedWeatherData[0]?.LocalObservationDateTime).toDateString();
+      return new Date(selectedWeatherData[0]?.LocalObservationDateTime).toDateString('');
     }
     return null;
   }, [selectedWeatherData]);
@@ -210,22 +239,31 @@ const DashboardPage = function () {
       <WeatherWrap>
         {selectedWeatherData && selectedCity && selectedForecast ? (
           <WeatherWrap>
-            <CityName>
-              {selectedCity.LocalizedName}
-            </CityName>
-            <Dots />
-            <Temperature>
-              <Cloud />
-              <TemperatureNumber>
-                {selectedWeatherData[0].Temperature.Metric.Value}
-              </TemperatureNumber>
-            </Temperature>
-            <WeatherText>
-              {selectedWeatherData[0].WeatherText}
-            </WeatherText>
-            <CurrentDate>
-              {date}
-            </CurrentDate>
+              <CityWrap>
+                  <CityName>
+                      {selectedCity.LocalizedName}
+                  </CityName>
+                  <Dots />
+                  <Temperature>
+                      <Cloud />
+                      <TemperatureNumber>
+                          {selectedWeatherData[0].Temperature.Metric.Value}
+                      </TemperatureNumber>
+                  </Temperature>
+                  <WeatherText>
+                      {selectedWeatherData[0].WeatherText}
+                  </WeatherText>
+                    <Wrapper>
+                        <CurrentDate>
+                            {date}
+                        </CurrentDate>
+                        <FavoriteButton>
+                            <StarIconButton/>
+                            Add to Favorites
+                        </FavoriteButton>
+                    </Wrapper>
+
+              </CityWrap>
             <ForecastWrapper>
               {displayForecast}
             </ForecastWrapper>
