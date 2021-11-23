@@ -16,12 +16,16 @@ import StarIcon from '../../svg/StarIcon.svg?component';
 import HomeIcon from '../../svg/HomeIcon.svg?component';
 import MapIcon from '../../svg/MapIcon.svg?component';
 import LogoutIcon from '../../svg/LogoutIcon.svg?component';
-import CelciousIcon from '../../svg/CelciousIcon.svg?component';
 import NavbarLink from './NavbarLink';
 import {hourlyForecastReceived} from '../../store/slices/hourlyForecast';
 import {NavLink} from "react-router-dom";
 import ReactSwitch from "react-switch";
-import {RiCelsiusLine,WiFahrenheit,FiSun,IoMoonOutline} from "react-icons/all";
+import {RiCelsiusLine, WiFahrenheit, FiSun, IoMoonOutline} from "react-icons/all";
+
+interface IProps {
+    isLightTheme: boolean
+    setIsLightTheme: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
 const media = {
     mobile: '(max-width: 900px)',
@@ -45,7 +49,7 @@ const WeatherAppLogoMobile = styled.div`
 `;
 const WeatherAppLogoWrapper = styled.div`
   display: flex;
-  flex: 1
+  margin-right: 158px;
 `;
 const WeatherAppLogoDesktop = styled.div`
   color: white;
@@ -53,25 +57,33 @@ const WeatherAppLogoDesktop = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 5px;
+  margin-left: 31px;
   @media ${media.mobile} {
     display: none;
   }
 `;
 
-const Navbar = styled.div`
+const Navbar = styled.div<{ isLightTheme?: boolean }>`
   height: 93px;
-  width: 100%;
-  background: #48BCE2;
+  background: ${({isLightTheme})=> isLightTheme?  '#48BCE2' : '#314314'};
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
   display: flex;
   align-items: center;
+  justify-content: space-evenly;
   //border: 1px solid black
+
 `;
 
 const MapLinkWrapper = styled.div`
   display: flex;
   align-items: center;
   gap: 5px;
+  margin-left: 122px;
+  margin-right: 54px;
+  @media ${media.mobile} {
+    display: none;
+  }
+
 
 `
 
@@ -80,6 +92,9 @@ const MapLink = styled(NavLink)`
   color: white;
   text-decoration: none;
   line-height: 13px;
+  @media ${media.mobile} {
+    display: none;
+  }
 `
 const LogoutButton = styled.button`
   border: none;
@@ -89,23 +104,27 @@ const LogoutButton = styled.button`
   line-height: 17px;
   background: none;
   font-size: 20px;
+  @media ${media.mobile} {
+    display: none;
+  }
+
   &:hover {
     cursor: pointer;
   }
-  
+
 `
 
 const ReactSwitchStyle = styled(ReactSwitch)`
   border: 1px solid #444E72;
+  margin-right: 30px;
+  @media ${media.mobile} {
+    display: none;
+  }
 `
 
 
-
-
-
-const Header = function () {
+const Header = function ({isLightTheme, setIsLightTheme}: IProps) {
     const [degreeChecked, setDegreeChecked] = useState(false);
-    const [darkMode, setDarkMode] = useState(false);
     const [inputValue, setInputValue] = useState('');
     const [selectedCity, setSelectedCity] = useState<ICity | null>(null);
     const {
@@ -132,7 +151,7 @@ const Header = function () {
     }
 
     const handleDarkModeChecked = () => {
-        setDarkMode(!darkMode)
+        setIsLightTheme((prevState) => !prevState)
     }
 
 
@@ -192,7 +211,7 @@ const Header = function () {
                             >
                                 {city.LocalizedName}
                                 ,
-                                <span style={{color: 'grey', display:'inline-block'}}>
+                                <span style={{color: 'grey', display: 'inline-block'}}>
                                     {city.Country.LocalizedName}
                                 </span>
 
@@ -215,19 +234,17 @@ const Header = function () {
                     onChange={handleDegreeChecked}
                     onColor='#FFFFFF'
                     offColor='#FFFFFF'
-                >
-                </ReactSwitchStyle>
-                    <ReactSwitchStyle
-                        onHandleColor='#838BAA'
-                        offHandleColor='#838BAA'
-                        uncheckedIcon={<FiSun size={20}/>}
-                        checkedIcon={<IoMoonOutline size={25}/>}
-                        checked={darkMode}
-                        onChange={handleDarkModeChecked}
-                        onColor='#FFFFFF'
-                        offColor='#FFFFFF'
-                    ></ReactSwitchStyle>
-
+                />
+                <ReactSwitchStyle
+                    onHandleColor='#838BAA'
+                    offHandleColor='#838BAA'
+                    uncheckedIcon={<IoMoonOutline size={25}/>}
+                    checkedIcon={<FiSun size={20}/>}
+                    checked={isLightTheme}
+                    onChange={handleDarkModeChecked}
+                    onColor='#FFFFFF'
+                    offColor='#FFFFFF'
+                />
                 <MapLinkWrapper>
                     <LogoutIcon/>
                     <LogoutButton>

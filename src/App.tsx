@@ -13,28 +13,29 @@ import {ThemeProvider} from "styled-components";
 
 const queryClient = new QueryClient();
 
-const lightTheme = {
-    body: 'linear-gradient(194.59deg, #47BFDF 47.43%, #4A91FF 133.36%), #FFFFFF;',
-    margin: 0,
-    fontFamily: 'Overpass,serif;'
+const theme = {
+
+     lightTheme: {
+        body: 'linear-gradient(194.59deg, #47BFDF 47.43%, #4A91FF 133.36%), #FFFFFF;',
+        fontFamily: 'Overpass,serif;'
+    },
+     darkTheme: {
+        body: 'linear-gradient(189.57deg, #191634 0%, #1E437C 133.7%), #FFFFFF;',
+        fontFamily: 'Overpass, serif'
+    }
 }
 
-const darkTheme = {
-    body: 'linear-gradient(189.57deg, #191634 0%, #1E437C 133.7%), #FFFFFF;',
-    margin: 0,
-    fontFamily: 'Overpass, serif'
-}
 
 
 const GlobalStyle = createGlobalStyle`
   body {
-    background-color: ${(props) => props.theme.body}
-    margin: 0;
+    background: ${({theme}) => theme.body}
     font-family: Overpass, serif;
   }
 
   * {
     box-sizing: border-box;
+    margin: 0;
   }
 
   #root {
@@ -51,6 +52,9 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
+  width: 100%;
+
+
 `;
 
 const RouteWrap = styled.div`
@@ -59,19 +63,15 @@ const RouteWrap = styled.div`
 
 const App = function () {
 
-    const [theme, setTheme] = useState('light')
-
-    const themeToggle = () => {
-        theme === 'light' ? setTheme('dark') : setTheme('light')
-    }
+    const [isLightTheme, setIsLightTheme] = useState(true)
 
     return (
         <Provider store={store}>
             <QueryClientProvider client={queryClient}>
-                <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
+                <ThemeProvider theme={isLightTheme ? theme : theme.darkTheme}>
                     <Container>
                         <GlobalStyle/>
-                        <Header/>
+                        <Header theme={isLightTheme} setTheme={setIsLightTheme}/>
                         <RouteWrap>
                             <Routes>
                                 <Route path="/" element={<DashboardPage/>}/>

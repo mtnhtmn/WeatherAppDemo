@@ -11,6 +11,8 @@ const media = {
 const NavbarLinkWrapper = styled.div<{ match:boolean }>`
   display: flex;
   height: 100%;
+  margin-left: 44px;
+  
   border-bottom:${(props) => (props.match ? '3px solid white' : '3px solid transparent')};
   @media ${media.mobile} {
     display: none;
@@ -23,6 +25,9 @@ const StyledLink = styled(NavLink)`
   gap: 5px;
   color: white;
   text-decoration: none;
+  @media ${media.mobile} {
+    display: none;
+  }
 `;
 
 interface IProps{
