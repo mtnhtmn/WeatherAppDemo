@@ -195,7 +195,7 @@ const DashboardPage = function () {
     const useStore: TypedUseSelectorHook<RootState> = useSelector;
     const selectedWeatherData = useStore((store) => store.weatherReducer.weatherData);
     const selectedCity = useStore((store) => store.cityReducer.city);
-    const selectedForecast = useStore((store) => store.forecastReducer.forecastData);
+    const selectedForecast = useStore((store) => store.forecastReducer.forecastData.DailyForecasts);
     const selectedHourlyForecast = useStore((store) => store.hourlyForecastReducer.hourlyForecastData);
     if (selectedWeatherData && selectedCity && selectedForecast) {
         console.log(selectedWeatherData[0]);

@@ -1,19 +1,25 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+
+export type TForecastData = {
+  DailyForecasts:{Date : string, Temperature : {Minimum : {Value : number, Unit : string}, Maximum : {Value : number, Unit : string}}}[]
+}
 
 export interface CityState {
-  forecastData: any
+  forecastData: TForecastData
 }
 
 const initialState: CityState = {
-  forecastData: [],
+  forecastData: {
+    DailyForecasts:[]
+  }
 };
 
 export const forecastSlice = createSlice({
   name: 'forecast',
   initialState,
   reducers: {
-    forecastReceived: (state, action) => {
-      state.forecastData = action.payload;
+    forecastReceived: (state, action: PayloadAction<TForecastData>) => {
+      state.forecastData.DailyForecasts = action.payload.DailyForecasts;
     },
   },
 });

@@ -52,10 +52,10 @@ const Window = styled.div<IWindowProps>`
   display: flex;
   overflow: hidden;
   flex-direction: column;
-  top: ${(props: IWindowProps) => `${props.top}px`};
+  top: ${(props) => `${props.top}px`};
   height: 250px;
   border: 1px solid black;
-  width: ${(props: IWindowProps) => `${props.width}px`};
+  width: ${(props) => `${props.width}px`};
   background: #FFFFFF;
   box-shadow: 0 4px 80px rgba(0, 0, 0, 0.16);
   border-radius: 30px;
@@ -102,7 +102,7 @@ interface ISearchProps<T> {
   variant?: 'primary' | 'secondary'
 }
 
-const Search = function <T extends any>({
+const Search = function <T extends unknown>({
   data,
   renderListItem,
   inputValue,
@@ -131,7 +131,7 @@ const Search = function <T extends any>({
           setOpen(true);
         }}
         type="text"
-        placeholder={'Try “Tel Aviv - Jaffo"...'}
+        placeholder='Try “Tel Aviv - Jaffo"...'
       />
       <div style={{ paddingRight: 19, height: 33 }}>
         <InputSearchIcon />

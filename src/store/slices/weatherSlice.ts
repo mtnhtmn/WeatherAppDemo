@@ -1,7 +1,9 @@
-import {createSlice} from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+
+export type TWeatherData = {Temperature:{Imperial:{Unit:string,Value:Number},Metric:{Unit:string,Value:Number}},WeatherText: string}
 
 export interface CityState {
-    weatherData: any
+    weatherData: TWeatherData | null
 }
 
 const initialState: CityState = {
@@ -12,7 +14,7 @@ export const weatherSlice = createSlice({
     name: 'weather',
     initialState,
     reducers: {
-        weatherReceived: (state,action) => {
+        weatherReceived: (state,action:PayloadAction<TWeatherData>) => {
             state.weatherData = action.payload
         }
     }

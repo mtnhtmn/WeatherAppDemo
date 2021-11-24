@@ -1,8 +1,7 @@
 import 'styled-components';
 
 declare module 'styled-components' {
-    export interface DefaultTheme {
-        body: string,
-        fontFamily: string
-    }
+  export interface DefaultTheme {
+    body: string,
+  }
 }

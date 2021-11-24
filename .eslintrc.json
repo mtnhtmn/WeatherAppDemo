@@ -25,6 +25,21 @@
   "rules": {
     "max-len": "off",
     "func-names": "off",
-    "no-console": "off"
+    "no-console": "off",
+    "import/no-unresolved": "error"
+  },
+  "settings": {
+    "import/parsers": {
+      "@typescript-eslint/parser": [
+        ".ts",
+        ".tsx"
+      ]
+    },
+    "import/resolver": {
+      "typescript": {
+        "alwaysTryTypes": true,
+        "project": "path/to/folder"
+      }
+    }
   }
 }

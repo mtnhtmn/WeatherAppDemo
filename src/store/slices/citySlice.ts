@@ -1,16 +1,17 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
+
 export interface ICity {
   Key: string;
   LocalizedName: string;
   Country: { LocalizedName: string }
 }
 
-export interface CityState {
-  city: any
+export interface ICityState {
+  city: ICity | null
 }
 
-const initialState: CityState = {
+const initialState: ICityState = {
   city: null,
 };
 
