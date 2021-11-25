@@ -1,44 +1,49 @@
 {
-  "parser": "@typescript-eslint/parser",
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "jest": true
+  },
   "extends": [
+    "plugin:react/recommended",
     "airbnb",
-    "airbnb-typescript",
-    "airbnb/hooks"
+    "plugin:react-hooks/recommended",
+    "prettier"
   ],
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true
     },
-    "ecmaVersion": 2018,
-    "sourceType": "module",
-    "project": "./tsconfig.json"
+    "ecmaVersion": 12,
+    "sourceType": "module"
   },
-  "plugins": [
-    "react",
-    "@typescript-eslint/eslint-plugin"
-  ],
-  "env": {
-    "browser": true,
-    "es6": true,
-    "jest": true
-  },
+  "plugins": ["react", "@typescript-eslint", "react-hooks", "import"],
   "rules": {
-    "max-len": "off",
-    "func-names": "off",
-    "no-console": "off",
-    "import/no-unresolved": "error"
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+    "no-use-before-define": "off",
+    "import/no-extraneous-dependencies": "off",
+    "react/jsx-filename-extension": "off",
+    "import/no-unresolved": "error",
+    "import/extensions": "off",
+    "react/react-in-jsx-scope": "off",
+    "react/jsx-props-no-spreading": "off",
+    "no-shadow": "off",
+    "no-unused-vars": "off",
+    "no-param-reassign": 0
   },
   "settings": {
     "import/parsers": {
-      "@typescript-eslint/parser": [
-        ".ts",
-        ".tsx"
-      ]
+      "@typescript-eslint/parser": [".ts", ".tsx"]
     },
     "import/resolver": {
+      "node": {
+        "moduleDirectory": ["node_modules", "src"]
+      },
       "typescript": {
         "alwaysTryTypes": true,
-        "project": "path/to/folder"
+        "project": "./tsconfig.json"
       }
     }
   }

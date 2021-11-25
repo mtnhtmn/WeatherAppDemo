@@ -6,7 +6,7 @@ const media = {
   mobile: '(max-width: 900px)',
 };
 
-const SearchWrapper = styled.div`
+const SearchWrapper = styled.div` 
   display: flex;
   align-items: center;
   position: relative;

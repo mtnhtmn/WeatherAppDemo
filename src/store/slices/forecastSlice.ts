@@ -4,11 +4,11 @@ export type TForecastData = {
   DailyForecasts:{Date : string, Temperature : {Minimum : {Value : number, Unit : string}, Maximum : {Value : number, Unit : string}}}[]
 }
 
-export interface CityState {
-  forecastData: TForecastData
+export interface IForecastState {
+  forecastData: TForecastData,
 }
 
-const initialState: CityState = {
+const initialState: IForecastState = {
   forecastData: {
     DailyForecasts:[]
   }
