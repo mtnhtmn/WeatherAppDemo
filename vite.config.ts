@@ -5,6 +5,7 @@ import reactSvgPlugin from 'vite-plugin-react-svg';
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  mode:'development',
   plugins: [
     react(),
     ViteFonts({
@@ -14,5 +15,8 @@ export default defineConfig({
     }),
     reactSvgPlugin(),
   ],
+  build: {
+    sourcemap: true,
+  },
 
 });

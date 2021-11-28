@@ -1,4 +1,4 @@
-const KEY = 'QYhA7p4xz5lMx341gvMjtO6W88aOrQhY';
+const KEY = 'xevDxA5DrqpWPmxG3UWazN5As6P6poAw';
 const BASE_URL = 'http://dataservice.accuweather.com'
 
 export const fetchCity = async (inputValue: string) => {

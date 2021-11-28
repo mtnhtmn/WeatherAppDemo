@@ -11,12 +11,14 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 10px;
+  margin-top: 93px;
   margin-right: auto;
   margin-left: auto;
   padding-right: 250px;
   padding-left: 250px;
-  
+  height: calc(100% - 93px);
+  overflow: auto;
+  overflow-x: hidden;
 `;
 
 const WeatherWrap = styled.div`
@@ -56,8 +58,7 @@ const FavoriteButton = styled.button`
 
 const CityName = styled.div`
   font-style: normal;
-  font-weight: bold;
-  font-size: 22px;
+  font-size: 50px;
   line-height: 34px;
   color: #FFFFFF;
   text-shadow: -2px 3px 1px rgba(0, 0, 0, 0.1);
@@ -183,20 +184,16 @@ const Wrapper = styled.div`
 
 const DashboardPage = function () {
   const useStore: TypedUseSelectorHook<RootState> = useSelector;
-  const selectedWeatherData = useStore((store) => store.weatherReducer.weatherData[0]);
-  const selectedCity = useStore((store) => store.cityReducer.city);
-  const selectedForecast = useStore((store) => store.forecastReducer.forecastData);
+  const selectedWeatherData = useStore((store) => store.weatherReducer.weatherData);
+  const selectedCity = useStore((store) => store.cityReducer.cityData);
+  const selectedForecast = useStore((store) => store.forecastReducer.forecastsData);
   const selectedHourlyForecast = useStore((store) => store.hourlyForecastReducer.hourlyForecastData);
-  if (selectedWeatherData && selectedCity && selectedForecast) {
-    console.log(selectedWeatherData);
-    console.log(selectedCity);
-    console.log(selectedForecast);
-    console.log(selectedHourlyForecast);
-  }
+
+
 
   const date = React.useMemo(() => {
     if (selectedWeatherData) {
-      return new Date(selectedWeatherData?.LocalObservationDateTime).toDateString('');
+      return new Date(selectedWeatherData?.LocalObservationDateTime).toDateString();
     }
     return null;
   }, [selectedWeatherData]);
@@ -233,6 +230,9 @@ const DashboardPage = function () {
 
   ));
 
+  console.log(selectedWeatherData);
+
+
   return (
     <Container>
       <WeatherWrap>
@@ -243,15 +243,15 @@ const DashboardPage = function () {
                 {selectedCity.LocalizedName}
               </CityName>
               <Dots />
-              <Temperature>
-                <Cloud />
-                <TemperatureNumber>
+               <Temperature>
+                 <Cloud />
+                 <TemperatureNumber>
                   {selectedWeatherData.Temperature.Metric.Value}
-                </TemperatureNumber>
-              </Temperature>
-              <WeatherText>
+                 </TemperatureNumber>
+               </Temperature>
+               <WeatherText>
                 {selectedWeatherData.WeatherText}
-              </WeatherText>
+               </WeatherText>
               <Wrapper>
                 <CurrentDate>
                   {date}
@@ -263,12 +263,12 @@ const DashboardPage = function () {
               </Wrapper>
 
             </CityWrap>
-            <ForecastWrapper>
+             <ForecastWrapper>
               {displayForecast}
-            </ForecastWrapper>
-            <HourlyForecastWrapper>
+             </ForecastWrapper>
+             <HourlyForecastWrapper>
               {displayHourlyForecast}
-            </HourlyForecastWrapper>
+             </HourlyForecastWrapper>
           </WeatherWrap>
         ) : null}
 

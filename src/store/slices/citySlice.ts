@@ -8,11 +8,11 @@ export interface ICity {
 }
 
 export interface ICityState {
-  city: ICity | null
+  cityData: ICity | null
 }
 
 const initialState: ICityState = {
-  city: null,
+  cityData: null,
 };
 
 export const citySlice = createSlice({
@@ -20,7 +20,7 @@ export const citySlice = createSlice({
   initialState,
   reducers: {
     getCurrentCity: (state, action:PayloadAction<ICity>) => {
-      state.city = action.payload;
+      state.cityData = action.payload;
     },
   },
 });

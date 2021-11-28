@@ -11,7 +11,7 @@ const media = {
 const NavbarLinkWrapper = styled.div<{ match:boolean }>`
   display: flex;
   height: 100%;
-  margin-left: 44px;
+ 
   
   border-bottom:${(props) => (props.match ? '3px solid white' : '3px solid transparent')};
   @media ${media.mobile} {
@@ -22,9 +22,10 @@ const NavbarLinkWrapper = styled.div<{ match:boolean }>`
 const StyledLink = styled(NavLink)`
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 11px;
   color: white;
   text-decoration: none;
+  padding: 15px;
   @media ${media.mobile} {
     display: none;
   }

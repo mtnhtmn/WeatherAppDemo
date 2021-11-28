@@ -15,7 +15,6 @@ const SearchWrapper = styled.div`
   background: #FFFFFF;
   box-shadow: inset 2px -3px 6px rgba(0, 0, 0, 0.1), inset -6px 4px 4px rgba(255, 255, 255, 0.1);
   border-radius: 15px;
-  margin-left: 166px;
   color: #222222;
   justify-content: space-between;
   
