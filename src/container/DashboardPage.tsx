@@ -1,10 +1,10 @@
 import React from 'react';
-import { TypedUseSelectorHook, useSelector } from 'react-redux';
+import {TypedUseSelectorHook, useSelector} from 'react-redux';
 import styled from 'styled-components';
-import { RootState } from '../store/store';
-import Cloud from '../svg/Cloud';
-import Dots from '../svg/Dots';
-import StarIconButton from '../svg/StarIconButton.svg?component';
+import useGeolocation from 'react-hook-geolocation'
+import {RootState} from '../store/store';
+import CurrentWeather from "../components/dashboard/CurrentWeather";
+
 
 const Container = styled.div`
   width: 100%;
@@ -27,80 +27,7 @@ const WeatherWrap = styled.div`
   width: 100%;
 `;
 
-const CityWrap = styled.div`
-  margin-top: 80px;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-`;
 
-const FavoriteButton = styled.button`
-  outline: none;
-  width: 200px;
-  height: 60px;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  padding: 15px;
-  background: #FFFFFF;
-  box-shadow: inset 2px -3px 6px rgba(0, 0, 0, 0.1), inset -6px 4px 4px rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
-  font-weight: bold;
-  font-size: 15px;
-  line-height: 31px;
-  gap: 5px;
-  &:hover {
-    cursor: pointer;
-  }
-
-`;
-
-const CityName = styled.div`
-  font-style: normal;
-  font-size: 50px;
-  line-height: 34px;
-  color: #FFFFFF;
-  text-shadow: -2px 3px 1px rgba(0, 0, 0, 0.1);
-  
-`;
-
-const Temperature = styled.div`
-  display: flex;
-  line-height: 135px;
-
-`;
-
-const TemperatureNumber = styled.div`
-  font-style: normal;
-  font-weight: normal;
-  font-size: 73px;
-  color: #FFFFFF;
-  height: 120px;
-
-`;
-
-const WeatherText = styled.div`
-  font-style: normal;
-  font-weight: normal;
-  font-size: 24px;
-  line-height: 37px;
-  color: #FFFFFF;
-  opacity: 0.6;
-  text-shadow: -2px 3px 1px rgba(0, 0, 0, 0.1);
-  
-
-`;
-
-const CurrentDate = styled.div`
-  font-style: normal;
-  font-weight: lighter;
-  font-size: 19px;
-  line-height: 25px;
-  color: #FFFFFF;
-  opacity: 0.6;
-  text-shadow: -2px 3px 1px rgba(0, 0, 0, 0.1);
-`;
 
 const ForecastWrapper = styled.div`
   height: 181px;
@@ -118,8 +45,8 @@ const DailyForecastItemWrapper = styled.div`
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  margin-left: 30px;
-  margin-right: 30px;
+  padding: 0 30px 0 30px;
+
 
 `;
 
@@ -133,14 +60,38 @@ const ForecastItemDay = styled.div`
 
 const ForecastItemPhrase = styled.span`
   font-weight: normal;
-  margin-left: 5px;
+  font-size: 15px;
 `;
 
-const ForecastItemTemperature = styled.div`
+const ForecastIcon = styled.img`
+  width: 35px;
+  height: 25px;
+
+`
+
+const ForecastItemData = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-style: normal;
   font-weight: bold;
-  font-size: 40px;
+  font-size: 18px;
 `;
+
+const ForecastItemMinTemperature = styled.span`
+  font-style: normal;
+  font-weight: bold;
+  font-size: 35px;
+  line-height: 61px;
+`
+
+const ForecastItemMaxTemperature = styled.span`
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 38px;
+
+`
 
 const HourlyForecastWrapper = styled.div`
   margin-top: 100px;
@@ -148,7 +99,7 @@ const HourlyForecastWrapper = styled.div`
   box-sizing: border-box;
   display: flex;
   justify-content: space-between;
-  
+
 
 `;
 
@@ -158,123 +109,112 @@ const HourlyForecastItemWrapper = styled.div`
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
+
   &:hover {
     background: rgba(255, 255, 255, 0.2);
     border-radius: 20px;
   }
-  
+
 
 `;
 
 const HourlyForecastItemDay = styled.div`
-  margin-left: 20px;
-  margin-right: 20px;
 
 `;
 
 const HourlyForecastItemTemperature = styled.div`
-  
+
 `;
 
-const Wrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
+const HourlyForecastIcon = styled.img`
   
-`;
+`
+
+
 
 const DashboardPage = function () {
-  const useStore: TypedUseSelectorHook<RootState> = useSelector;
-  const selectedWeatherData = useStore((store) => store.weatherReducer.weatherData);
-  const selectedCity = useStore((store) => store.cityReducer.cityData);
-  const selectedForecast = useStore((store) => store.forecastReducer.forecastsData);
-  const selectedHourlyForecast = useStore((store) => store.hourlyForecastReducer.hourlyForecastData);
+    const useStore: TypedUseSelectorHook<RootState> = useSelector;
+    const selectedWeatherData = useStore((store) => store.weatherReducer.weatherData);
+    const selectedCity = useStore((store) => store.cityReducer.cityData);
+    const selectedForecast = useStore((store) => store.forecastReducer.forecastsData);
+    const selectedHourlyForecast = useStore((store) => store.hourlyForecastReducer.hourlyForecastData);
 
 
-
-  const date = React.useMemo(() => {
-    if (selectedWeatherData) {
-      return new Date(selectedWeatherData?.LocalObservationDateTime).toDateString();
+    const forecastIconNumberHandler = (iconNumber: number) => {
+        if (iconNumber < 10) {
+            return `0${iconNumber}`
+        }
+        return iconNumber
     }
-    return null;
-  }, [selectedWeatherData]);
-
-  const displayForecast = selectedForecast.map((forecast: any, index: number) => (
-    <DailyForecastItemWrapper key={index}>
-      <ForecastItemDay>
-        {new Date(forecast.Date).toLocaleDateString('en-GB', {
-          weekday: 'short',
-        })}
-        -
-        <ForecastItemPhrase>
-          {forecast.Day.IconPhrase}
-        </ForecastItemPhrase>
-      </ForecastItemDay>
-      <ForecastItemTemperature>
-        {forecast.Temperature.Minimum.Value}
-      </ForecastItemTemperature>
-    </DailyForecastItemWrapper>
-  ));
-
-  const displayHourlyForecast = selectedHourlyForecast.map((hourlyForecast: any, index: number) => (
-    <HourlyForecastItemWrapper key={index}>
-      <HourlyForecastItemDay>
-        {new Date(hourlyForecast.DateTime).getHours()}
-        :
-        {new Date(hourlyForecast.DateTime).getMinutes()}
-        {new Date(hourlyForecast.DateTime).getMinutes()}
-      </HourlyForecastItemDay>
-      <HourlyForecastItemTemperature>
-        {hourlyForecast.Temperature.Value}
-      </HourlyForecastItemTemperature>
-    </HourlyForecastItemWrapper>
-
-  ));
-
-  console.log(selectedWeatherData);
 
 
-  return (
-    <Container>
-      <WeatherWrap>
-        {selectedWeatherData && selectedCity && selectedForecast ? (
-          <WeatherWrap>
-            <CityWrap>
-              <CityName>
-                {selectedCity.LocalizedName}
-              </CityName>
-              <Dots />
-               <Temperature>
-                 <Cloud />
-                 <TemperatureNumber>
-                  {selectedWeatherData.Temperature.Metric.Value}
-                 </TemperatureNumber>
-               </Temperature>
-               <WeatherText>
-                {selectedWeatherData.WeatherText}
-               </WeatherText>
-              <Wrapper>
-                <CurrentDate>
-                  {date}
-                </CurrentDate>
-                <FavoriteButton>
-                  <StarIconButton />
-                  Add to Favorites
-                </FavoriteButton>
-              </Wrapper>
+    const displayForecast = selectedForecast.map((forecast: any, index: number) => (
+        <DailyForecastItemWrapper key={index}>
+            <ForecastItemDay>
+                {new Date(forecast.Date).toLocaleDateString('en-GB', {
+                    weekday: 'short',
+                })}
+                -
+                <ForecastItemPhrase>
+                    {forecast.Day.IconPhrase}
+                </ForecastItemPhrase>
+            </ForecastItemDay>
+            <ForecastItemData>
+                <span>
+                    <ForecastIcon
+                        src={`https://developer.accuweather.com/sites/default/files/${forecastIconNumberHandler(forecast.Day.Icon)}-s.png`}
+                        alt="Icon"/>
+                </span>
+                <ForecastItemMinTemperature>
+                    {forecast.Temperature.Minimum.Value}
+                </ForecastItemMinTemperature>
+                -
+                <ForecastItemMaxTemperature>
+                    {forecast.Temperature.Maximum.Value}
+                </ForecastItemMaxTemperature>
+            </ForecastItemData>
+        </DailyForecastItemWrapper>
+    ));
 
-            </CityWrap>
-             <ForecastWrapper>
-              {displayForecast}
-             </ForecastWrapper>
-             <HourlyForecastWrapper>
-              {displayHourlyForecast}
-             </HourlyForecastWrapper>
-          </WeatherWrap>
-        ) : null}
+    const displayHourlyForecast = selectedHourlyForecast.map((hourlyForecast: any, index: number) => (
+        <HourlyForecastItemWrapper key={index}>
+            <HourlyForecastItemDay>
+                {new Date(hourlyForecast.DateTime).getHours()}
+                :
+                {new Date(hourlyForecast.DateTime).getMinutes()}
+                {new Date(hourlyForecast.DateTime).getMinutes()}
+            </HourlyForecastItemDay>
+            <HourlyForecastItemTemperature>
+                {hourlyForecast.Temperature.Value}
+            </HourlyForecastItemTemperature>
+            <HourlyForecastIcon
+                src={`https://developer.accuweather.com/sites/default/files/${forecastIconNumberHandler(hourlyForecast.WeatherIcon)}-s.png`}
+                alt="Icon"
+            />
+        </HourlyForecastItemWrapper>
 
-      </WeatherWrap>
-    </Container>
-  );
+    ));
+
+    console.log(selectedWeatherData);
+
+
+    return (
+        <Container>
+            <WeatherWrap>
+                {selectedWeatherData && selectedCity && selectedForecast ? (
+                    <WeatherWrap>
+                        <CurrentWeather selectedCity={selectedCity} selectedWeatherData={selectedWeatherData}/>
+                        <ForecastWrapper>
+                            {displayForecast}
+                        </ForecastWrapper>
+                        <HourlyForecastWrapper>
+                            {displayHourlyForecast}
+                        </HourlyForecastWrapper>
+                    </WeatherWrap>
+                ) : null}
+            </WeatherWrap>
+        </Container>
+    );
 };
 
 export default DashboardPage;

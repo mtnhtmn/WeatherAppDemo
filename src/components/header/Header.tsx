@@ -1,20 +1,20 @@
-import React, { useState } from "react";
-import { useQuery } from "react-query";
-import { useDispatch } from "react-redux";
-import styled, { useTheme } from "styled-components";
-import { NavLink } from "react-router-dom";
+import React, {useState} from "react";
+import {useQuery} from "react-query";
+import {useDispatch} from "react-redux";
+import styled, {useTheme} from "styled-components";
+import {NavLink} from "react-router-dom";
 import ReactSwitch from "react-switch";
 import {
-  WiCelsius, WiFahrenheit, FiSun, IoMoonOutline
+    WiCelsius, WiFahrenheit, FiSun, IoMoonOutline
 } from "react-icons/all";
 import Search from "../Search";
 import {
-  fetchCity, fetchForecast, fetchHourlyForecast, fetchWeather
+    fetchCity, fetchForecast, fetchHourlyForecast, fetchWeather
 } from "../../services/api";
-import { IWeatherData, weatherReceived } from "../../store/slices/weatherSlice";
-import { getCurrentCity, ICity } from "../../store/slices/citySlice";
-import { forecastReceived, IForecast } from "../../store/slices/forecastSlice";
-import { AppDispatch } from "../../store/store";
+import {IWeatherData, weatherReceived} from "../../store/slices/weatherSlice";
+import {getCurrentCity, ICity} from "../../store/slices/citySlice";
+import {forecastReceived, IForecast} from "../../store/slices/forecastSlice";
+import {AppDispatch} from "../../store/store";
 import Subtract from "../../svg/Subtract";
 import MobileMenu from "../../svg/MobileMenu";
 import StarIcon from "../../svg/StarIcon.svg?component";
@@ -22,12 +22,12 @@ import HomeIcon from "../../svg/HomeIcon.svg?component";
 import MapIcon from "../../svg/MapIcon.svg?component";
 import LogoutIcon from "../../svg/LogoutIcon.svg?component";
 import NavbarLink from "./NavbarLink";
-import { hourlyForecastReceived } from "../../store/slices/hourlyForecast";
+import {hourlyForecastReceived} from "../../store/slices/hourlyForecast";
 
 
 const media = {
-  mobile: "(max-width: 900px)",
-  desktop: "(min-width: 900px)"
+    mobile: "(max-width: 900px)",
+    desktop: "(min-width: 900px)"
 };
 
 const HeaderWrap = styled.div`
@@ -68,7 +68,7 @@ const WeatherAppLogoDesktop = styled.div`
 
 const Navbar = styled.div<{ background?: string }>`
   height: 93px;
-  background: ${({ background }) => background};
+  background: ${({background}) => background};
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
   display: flex;
   align-items: center;
@@ -153,152 +153,151 @@ const NavbarLinksWrapper = styled.div`
 `;
 
 interface IProps {
-  setIsLightTheme: React.Dispatch<React.SetStateAction<boolean>>;
-  isLightTheme: boolean;
+    setIsLightTheme: React.Dispatch<React.SetStateAction<boolean>>;
+    isLightTheme: boolean;
 }
 
-const Header = function({ isLightTheme, setIsLightTheme }: IProps) {
-  const [degreeChecked, setDegreeChecked] = useState(false);
-  const [inputValue, setInputValue] = useState("");
-  const [selectedCity, setSelectedCity] = useState<ICity | null>(null);
+const Header = function ({isLightTheme, setIsLightTheme}: IProps) {
+    const [degreeChecked, setDegreeChecked] = useState(false);
+    const [inputValue, setInputValue] = useState("");
+    const [selectedCity, setSelectedCity] = useState<ICity | null>(null);
+    const theme = useTheme();
 
-  const theme = useTheme();
+    const {
+        data: cityData,
+        refetch: getCity
+    } = useQuery<ICity[]>("cityData", () => fetchCity(inputValue), {enabled: false});
+    const {
+        data: cityWeatherData,
+        refetch: getCityWeather
+    } = useQuery<any, any, IWeatherData[]>("cityWeather", () => selectedCity && fetchWeather(selectedCity.Key), {enabled: false});
+    const {
+        data: cityForecastData,
+        refetch: getForecast
+    } = useQuery<any, any, { DailyForecasts: IForecast[] }>("cityForecast", () => selectedCity && fetchForecast(selectedCity.Key), {enabled: false});
+    const {
+        data: cityHourlyForecastData,
+        refetch: getHourlyForecast
+    } = useQuery("cityHourlyForecast", () => selectedCity && fetchHourlyForecast(selectedCity.Key), {enabled: false});
 
-  const {
-    data: cityData,
-    refetch: getCity
-  } = useQuery<ICity[]>("cityData", () => fetchCity(inputValue), { enabled: false });
-  const {
-    data: cityWeatherData,
-    refetch: getCityWeather
-  } = useQuery<any, any, IWeatherData[]>("cityWeather", () => selectedCity && fetchWeather(selectedCity.Key), { enabled: false });
-  const {
-    data: cityForecastData,
-    refetch: getForecast
-  } = useQuery<any, any, { DailyForecasts: IForecast[] }>("cityForecast", () => selectedCity && fetchForecast(selectedCity.Key), { enabled: false });
-  const {
-    data: cityHourlyForecastData,
-    refetch: getHourlyForecast
-  } = useQuery("cityHourlyForecast", () => selectedCity && fetchHourlyForecast(selectedCity.Key), { enabled: false });
+    const dispatch = useDispatch<AppDispatch>();
 
-  const dispatch = useDispatch<AppDispatch>();
+    const handleDegreeChecked = () => {
+        setDegreeChecked(!degreeChecked);
+    };
 
-  const handleDegreeChecked = () => {
-    setDegreeChecked(!degreeChecked);
-  };
+    const handleDarkLightSwitch = () => {
+        setIsLightTheme((prevState) => !prevState);
+    };
 
-  const handleDarkLightSwitch = () => {
-    setIsLightTheme((prevState) => !prevState);
-  };
+    React.useEffect(() => {
+        if (inputValue) {
+            getCity();
+        }
+    }, [getCity, inputValue]);
+    React.useEffect(() => {
+        if (selectedCity) {
+            getCityWeather();
+            getForecast();
+            getHourlyForecast();
+        }
+    }, [getCityWeather, getForecast, getHourlyForecast, selectedCity]);
+    React.useEffect(() => {
+        if (cityWeatherData && selectedCity && cityForecastData && cityHourlyForecastData) {
 
-  React.useEffect(() => {
-    if (inputValue) {
-      getCity();
-    }
-  }, [getCity, inputValue]);
-  React.useEffect(() => {
-    if (selectedCity) {
-      getCityWeather();
-      getForecast();
-      getHourlyForecast();
-    }
-  }, [getCityWeather, getForecast, getHourlyForecast, selectedCity]);
-  React.useEffect(() => {
-    if (cityWeatherData && selectedCity && cityForecastData && cityHourlyForecastData) {
+            dispatch(weatherReceived(cityWeatherData[0]));
+            dispatch(getCurrentCity(selectedCity));
+            dispatch(forecastReceived(cityForecastData.DailyForecasts));
+            dispatch(hourlyForecastReceived(cityHourlyForecastData));
+        }
+    }, [cityWeatherData, selectedCity, cityForecastData, cityHourlyForecastData, dispatch]);
 
-      dispatch(weatherReceived(cityWeatherData[0]));
-      dispatch(getCurrentCity(selectedCity));
-      dispatch(forecastReceived(cityForecastData.DailyForecasts));
-      dispatch(hourlyForecastReceived(cityHourlyForecastData));
-    }
-  }, [cityWeatherData, selectedCity, cityForecastData, cityHourlyForecastData, dispatch]);
-
-  return (
-    <HeaderWrap>
-      <Navbar background={theme.navbar.background}>
-        <WeatherAppLogoWrapper>
-          <WeatherAppLogoDesktop>
-            <Subtract />
-            WeatherApp
-          </WeatherAppLogoDesktop>
-        </WeatherAppLogoWrapper>
-        <WeatherAppLogoMobile>
-          <StarIcon />
-          <MobileMenu />
-        </WeatherAppLogoMobile>
-        <NavbarItems>
-          <NavbarLinksWrapper>
-            <NavbarLink to="/">
-              <HomeIcon />
-              Home
-            </NavbarLink>
-            <NavbarLink to="/favorites">
-              <StarIcon />
-              Favorites
-            </NavbarLink>
-          </NavbarLinksWrapper>
-          <div>
-            <Search<ICity>
-              getKey={(city) => city.Key}
-              inputValue={inputValue}
-              onInputChange={setInputValue}
-              data={cityData}
-              onListItemClick={setSelectedCity}
-              renderListItem={(city) => (
-                <div style={{
-                  padding: 20, display: "flex", alignItems: "center", height: 20
-                }}
-                >
-                  {city.LocalizedName}
-                  ,
-                  <span style={{ color: "grey", display: "inline-block" }}>
+    return (
+        <HeaderWrap>
+            <Navbar background={theme.navbar.background}>
+                <WeatherAppLogoWrapper>
+                    <WeatherAppLogoDesktop>
+                        <Subtract/>
+                        WeatherApp
+                    </WeatherAppLogoDesktop>
+                </WeatherAppLogoWrapper>
+                <WeatherAppLogoMobile>
+                    <StarIcon/>
+                    <MobileMenu/>
+                </WeatherAppLogoMobile>
+                <NavbarItems>
+                    <NavbarLinksWrapper>
+                        <NavbarLink to="/">
+                            <HomeIcon/>
+                            Home
+                        </NavbarLink>
+                        <NavbarLink to="/favorites">
+                            <StarIcon/>
+                            Favorites
+                        </NavbarLink>
+                    </NavbarLinksWrapper>
+                    <div>
+                        <Search<ICity>
+                            getKey={(city) => city.Key}
+                            inputValue={inputValue}
+                            onInputChange={setInputValue}
+                            data={cityData}
+                            onListItemClick={setSelectedCity}
+                            renderListItem={(city) => (
+                                <div style={{
+                                    padding: 20, display: "flex", alignItems: "center", height: 20
+                                }}
+                                >
+                                    {city.LocalizedName}
+                                    ,
+                                    <span style={{color: "grey", display: "inline-block"}}>
                   {city.Country.LocalizedName}
                 </span>
 
-                </div>
-              )}
-            />
-          </div>
-          <MapLinkWrapper>
-            <MapIcon />
-            <MapLink to="/map">
-              Switch to map
-            </MapLink>
-          </MapLinkWrapper>
-          <SwitchWrapper>
-            <ReactSwitchStyle
-              onHandleColor="#838BAA"
-              offHandleColor="#838BAA"
-              uncheckedIcon={<WiCelsius size={33} />}
-              checkedIcon={<WiFahrenheit size={33} />}
-              checked={degreeChecked}
-              onChange={handleDegreeChecked}
-              onColor="#FFFFFF"
-              offColor="#FFFFFF"
-            />
-            <ReactSwitchStyle
-              onHandleColor="#838BAA"
-              offHandleColor="#838BAA"
-              uncheckedIcon={<IoMoonOutline size={25} />}
-              checkedIcon={<FiSun size={20} />}
-              checked={isLightTheme}
-              onChange={handleDarkLightSwitch}
-              onColor="#FFFFFF"
-              offColor="#FFFFFF"
-            />
-          </SwitchWrapper>
+                                </div>
+                            )}
+                        />
+                    </div>
+                    <MapLinkWrapper>
+                        <MapIcon/>
+                        <MapLink to="/map">
+                            Switch to map
+                        </MapLink>
+                    </MapLinkWrapper>
+                    <SwitchWrapper>
+                        <ReactSwitchStyle
+                            onHandleColor="#838BAA"
+                            offHandleColor="#838BAA"
+                            uncheckedIcon={<WiCelsius size={33}/>}
+                            checkedIcon={<WiFahrenheit size={33}/>}
+                            checked={degreeChecked}
+                            onChange={handleDegreeChecked}
+                            onColor="#FFFFFF"
+                            offColor="#FFFFFF"
+                        />
+                        <ReactSwitchStyle
+                            onHandleColor="#838BAA"
+                            offHandleColor="#838BAA"
+                            uncheckedIcon={<IoMoonOutline size={25}/>}
+                            checkedIcon={<FiSun size={20}/>}
+                            checked={isLightTheme}
+                            onChange={handleDarkLightSwitch}
+                            onColor="#FFFFFF"
+                            offColor="#FFFFFF"
+                        />
+                    </SwitchWrapper>
 
-          <MapLinkWrapper>
-            <LogoutIcon />
-            <LogoutButton>
-              Log out
-            </LogoutButton>
-          </MapLinkWrapper>
-        </NavbarItems>
-      </Navbar>
-    </HeaderWrap>
+                    <MapLinkWrapper>
+                        <LogoutIcon/>
+                        <LogoutButton>
+                            Log out
+                        </LogoutButton>
+                    </MapLinkWrapper>
+                </NavbarItems>
+            </Navbar>
+        </HeaderWrap>
 
-  );
+    );
 };
 
 export default Header;

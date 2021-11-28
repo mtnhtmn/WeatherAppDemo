@@ -4,8 +4,12 @@ export interface IForecast {
   Date: string;
   Temperature: {
     Minimum: { Value: number, Unit: string },
-    Maximum: { Value: number, Unit: string }
+    Maximum: { Value: number, Unit: string },
   };
+  Day: {
+    Icon: number
+    IconPhrase: string
+  }
 }
 
 interface IForecastsState {
@@ -13,9 +17,7 @@ interface IForecastsState {
 }
 
 const initialState: IForecastsState = {
-
   forecastsData: []
-
 };
 
 export const forecastSlice = createSlice({
@@ -23,6 +25,7 @@ export const forecastSlice = createSlice({
   initialState,
   reducers: {
     forecastReceived: (state, action: PayloadAction<IForecast[]>) => {
+      action.payload.pop()
       state.forecastsData = action.payload;
     }
   }

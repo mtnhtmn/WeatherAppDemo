@@ -1,10 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-export interface CityState {
-  hourlyForecastData: any
+export interface IHourlyForecast {
+  DateTime: string
+  WeatherIcon: number
+  Temperature: {
+    Value: number
+  }
 }
 
-const initialState: CityState = {
+export interface IHourlyForecastState  {
+  hourlyForecastData: IHourlyForecast[]
+}
+
+const initialState: IHourlyForecastState = {
   hourlyForecastData: [],
 };
 
