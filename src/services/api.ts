@@ -1,11 +1,14 @@
 const KEY = 'xevDxA5DrqpWPmxG3UWazN5As6P6poAw';
 const BASE_URL = 'http://dataservice.accuweather.com'
 
-export const fetchGeoLocation = async (Latitude : number ,Longitude: number) => {
-  const res = await fetch(`${BASE_URL}/locations/v1/cities/geoposition/search?apikey=${KEY}&q=${Latitude}%2C${Longitude}`)
-  const data = await res.json()
-  return data
-
+export const fetchGeoLocation = async (Latitude: number ,Longitude: number) => {
+  if (Latitude && Longitude) {
+    const res = await fetch(`${BASE_URL}/locations/v1/cities/geoposition/search?apikey=${KEY}&q=${Latitude}%2C${Longitude}&details=true&toplevel=true`)
+    const data = await res.json()
+    console.log(data)
+    return data
+  }
+  throw new Error('no geolocation');
 }
 
 export const fetchCity = async (inputValue: string) => {

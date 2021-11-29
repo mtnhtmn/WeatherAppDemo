@@ -9,7 +9,7 @@ import {
 } from "react-icons/all";
 import Search from "../Search";
 import {
-    fetchCity, fetchForecast, fetchHourlyForecast, fetchWeather
+    fetchCity, fetchForecast, fetchGeoLocation, fetchHourlyForecast, fetchWeather
 } from "../../services/api";
 import {IWeatherData, weatherReceived} from "../../store/slices/weatherSlice";
 import {getCurrentCity, ICity} from "../../store/slices/citySlice";
@@ -23,6 +23,7 @@ import MapIcon from "../../svg/MapIcon.svg?component";
 import LogoutIcon from "../../svg/LogoutIcon.svg?component";
 import NavbarLink from "./NavbarLink";
 import {hourlyForecastReceived} from "../../store/slices/hourlyForecast";
+import useGeolocation from "react-hook-geolocation";
 
 
 const media = {
@@ -53,7 +54,7 @@ const WeatherAppLogoWrapper = styled.div`
   @media ${media.mobile} {
     display: none;
   }
-  
+
 `;
 
 const WeatherAppLogoDesktop = styled.div`
@@ -63,7 +64,7 @@ const WeatherAppLogoDesktop = styled.div`
 
   align-items: center;
   gap: 5px;
- 
+
 `;
 
 const Navbar = styled.div<{ background?: string }>`
@@ -115,7 +116,7 @@ const LogoutButton = styled.button`
   line-height: 17px;
   background: none;
   font-size: 20px;
-  font-family: Overpass,serif;
+  font-family: Overpass, serif;
   margin-right: 30px;
 
 
@@ -129,7 +130,7 @@ const SwitchWrapper = styled.div`
   display: flex;
   gap: 30px;
 
-  
+
 
 `
 
@@ -138,7 +139,7 @@ const ReactSwitchStyle = styled(ReactSwitch)`
   align-items: center;
   border: 1px solid #444E72;
   @media ${media.mobile} {
-    display: none!important;
+    display: none !important;
   }
 `;
 
@@ -147,8 +148,8 @@ const NavbarLinksWrapper = styled.div`
   align-items: center;
   height: 100%;
   gap: 29px;
- 
-  
+
+
 
 `;
 
@@ -162,6 +163,7 @@ const Header = function ({isLightTheme, setIsLightTheme}: IProps) {
     const [inputValue, setInputValue] = useState("");
     const [selectedCity, setSelectedCity] = useState<ICity | null>(null);
     const theme = useTheme();
+    const geolocation = useGeolocation()
 
     const {
         data: cityData,
@@ -179,6 +181,13 @@ const Header = function ({isLightTheme, setIsLightTheme}: IProps) {
         data: cityHourlyForecastData,
         refetch: getHourlyForecast
     } = useQuery("cityHourlyForecast", () => selectedCity && fetchHourlyForecast(selectedCity.Key), {enabled: false});
+    const {
+        data: geolocationData,
+        refetch: getGeolocation
+    } = useQuery("geolocation", () => fetchGeoLocation(geolocation.latitude, geolocation.longitude), {enabled: false});
+
+    console.log(geolocationData)
+
 
     const dispatch = useDispatch<AppDispatch>();
 
@@ -189,6 +198,14 @@ const Header = function ({isLightTheme, setIsLightTheme}: IProps) {
     const handleDarkLightSwitch = () => {
         setIsLightTheme((prevState) => !prevState);
     };
+
+
+    React.useEffect(() => {
+        if (geolocation.latitude && geolocation.longitude) {
+            getGeolocation()
+            setSelectedCity(geolocationData)
+        }
+    }, [getGeolocation, geolocation.longitude, geolocation.longitude, setSelectedCity, geolocationData])
 
     React.useEffect(() => {
         if (inputValue) {

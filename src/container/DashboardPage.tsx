@@ -1,9 +1,10 @@
 import React from 'react';
 import {TypedUseSelectorHook, useSelector} from 'react-redux';
 import styled from 'styled-components';
-import useGeolocation from 'react-hook-geolocation'
 import {RootState} from '../store/store';
 import CurrentWeather from "../components/dashboard/CurrentWeather";
+import {useQuery} from "react-query";
+import {fetchGeoLocation, fetchHourlyForecast} from "../services/api";
 
 
 const Container = styled.div`
@@ -133,11 +134,14 @@ const HourlyForecastIcon = styled.img`
 
 
 const DashboardPage = function () {
+
     const useStore: TypedUseSelectorHook<RootState> = useSelector;
     const selectedWeatherData = useStore((store) => store.weatherReducer.weatherData);
     const selectedCity = useStore((store) => store.cityReducer.cityData);
     const selectedForecast = useStore((store) => store.forecastReducer.forecastsData);
     const selectedHourlyForecast = useStore((store) => store.hourlyForecastReducer.hourlyForecastData);
+
+
 
 
     const forecastIconNumberHandler = (iconNumber: number) => {

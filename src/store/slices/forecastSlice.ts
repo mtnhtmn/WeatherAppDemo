@@ -25,7 +25,6 @@ export const forecastSlice = createSlice({
   initialState,
   reducers: {
     forecastReceived: (state, action: PayloadAction<IForecast[]>) => {
-      action.payload.pop()
       state.forecastsData = action.payload;
     }
   }
