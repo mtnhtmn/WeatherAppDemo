@@ -1,11 +1,12 @@
-import React from 'react';
+import React, {FunctionComponent} from 'react';
 import {TypedUseSelectorHook, useSelector} from 'react-redux';
 import styled from 'styled-components';
 import {RootState} from '../store/store';
 import CurrentWeather from "../components/dashboard/CurrentWeather";
-import {useQuery} from "react-query";
-import {fetchGeoLocation, fetchHourlyForecast} from "../services/api";
-
+import SunIcon from "../svg/SunIcon.svg?component"
+import {LineChart, Line} from 'recharts';
+import {LabelList} from "recharts/src/component/LabelList";
+import ForecastChart from "../components/dashboard/ForecastChart";
 
 const Container = styled.div`
   width: 100%;
@@ -26,8 +27,8 @@ const WeatherWrap = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
+  margin-top: 300px;
 `;
-
 
 
 const ForecastWrapper = styled.div`
@@ -128,6 +129,34 @@ const HourlyForecastItemTemperature = styled.div`
 `;
 
 const HourlyForecastIcon = styled.img`
+
+`
+
+const ForecastChartWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 20px;
+  margin-top: 145px;
+  height: 402px;
+  color: white;
+
+`
+
+const DailyForecastWidgetItemWrapper = styled.div`
+
+`
+
+const ForecastWidgetItemDay = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+
+  }
   
 `
 
@@ -141,7 +170,7 @@ const DashboardPage = function () {
     const selectedForecast = useStore((store) => store.forecastReducer.forecastsData);
     const selectedHourlyForecast = useStore((store) => store.hourlyForecastReducer.hourlyForecastData);
 
-
+    console.log(selectedForecast)
 
 
     const forecastIconNumberHandler = (iconNumber: number) => {
@@ -180,6 +209,28 @@ const DashboardPage = function () {
         </DailyForecastItemWrapper>
     ));
 
+    const displayForecastWidget = selectedForecast.map((forecast: any, index: number) => (
+        <DailyForecastWidgetItemWrapper key={index}>
+            <ForecastWidgetItemDay>
+                <div>
+                    {new Date(forecast.Date).toLocaleDateString('en-GB', {
+                        weekday: 'short',
+                    })}
+                </div>
+                <div>
+                    {new Date(forecast.Date).toLocaleDateString('en-GB', {
+                        day: 'numeric',
+                        month: 'numeric',
+                    })}
+                </div>
+                <SunIcon/>
+            </ForecastWidgetItemDay>
+        </DailyForecastWidgetItemWrapper>
+
+    ))
+
+
+
     const displayHourlyForecast = selectedHourlyForecast.map((hourlyForecast: any, index: number) => (
         <HourlyForecastItemWrapper key={index}>
             <HourlyForecastItemDay>
@@ -199,8 +250,6 @@ const DashboardPage = function () {
 
     ));
 
-    console.log(selectedWeatherData);
-
 
     return (
         <Container>
@@ -214,6 +263,11 @@ const DashboardPage = function () {
                         <HourlyForecastWrapper>
                             {displayHourlyForecast}
                         </HourlyForecastWrapper>
+                        <ForecastChartWrapper>
+                            {displayForecastWidget}
+                            <ForecastChart selectedForecast={selectedForecast}/>
+                        </ForecastChartWrapper>
+
                     </WeatherWrap>
                 ) : null}
             </WeatherWrap>
