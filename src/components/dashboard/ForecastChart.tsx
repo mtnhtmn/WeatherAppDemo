@@ -1,5 +1,8 @@
 import React, {FunctionComponent} from 'react';
-import { LineChart, Line } from 'recharts';
+import {LineChart, Line, ResponsiveContainer} from 'recharts';
+
+
+
 
 
 const CustomizedLabel: FunctionComponent<any> = function(props: any) {
@@ -26,20 +29,23 @@ const ForecastChart = function({selectedForecast}: IProps) {
     ))
 
     return (
-        <LineChart
-            width={1100}
-            height={500}
-            data={forecastChartData}
-            margin={{
-                top: 40,
-                right: 100,
-                left: 100,
-                bottom: 10
-            }}
-        >
-            <Line isAnimationActive={false} dataKey="pv" stroke="#FFFFFF" label={<CustomizedLabel/>} />
-            <Line isAnimationActive={false} dataKey="uv" stroke="#FFFFFF" label={<CustomizedLabel/>} />
-        </LineChart>
+        <ResponsiveContainer>
+            <LineChart
+                width={1100}
+                height={500}
+                data={forecastChartData}
+                margin={{
+                    top: 40,
+                    right: 100,
+                    left: 100,
+                    bottom: 10
+                }}
+            >
+                <Line isAnimationActive={false} dataKey="pv" stroke="#FFFFFF" label={<CustomizedLabel/>} />
+                <Line isAnimationActive={false} dataKey="uv" stroke="#FFFFFF" label={<CustomizedLabel/>} />
+            </LineChart>
+        </ResponsiveContainer>
+
     );
 }
 
