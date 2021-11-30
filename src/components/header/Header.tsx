@@ -73,7 +73,6 @@ const Navbar = styled.div<{ background?: string }>`
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
   display: flex;
   align-items: center;
-  //border: 1px solid black
 
 `;
 

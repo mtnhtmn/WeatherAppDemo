@@ -7,5 +7,8 @@ declare module 'styled-components' {
     navbar:{
       background:string
     }
+    scrollbar:{
+      background:string
+    }
   }
 }

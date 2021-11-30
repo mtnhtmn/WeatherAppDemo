@@ -18,12 +18,18 @@ const lightTheme: DefaultTheme = {
   navbar:{
     background:"#48BCE2"
   },
+  scrollbar: {
+    background: '#1A2B55'
+  },
   fontFamily: "Overpass,serif;"
 };
 const darkTheme: DefaultTheme = {
   background: "linear-gradient(189.57deg, #191634 0%, #1E437C 133.7%), #FFFFFF;",
   navbar:{
     background:"#1A2B55"
+  },
+  scrollbar: {
+    background: '#48BCE2'
   },
   fontFamily: "Overpass, serif"
 };
@@ -47,6 +53,19 @@ const GlobalStyle = createGlobalStyle`
   p {
     margin: 0;
   }
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    border-radius: 10px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: ${({ theme }) => theme.background}
+    border-radius: 10px;
+  }
+
+  :
 `;
 
 const Container = styled.div`
@@ -54,8 +73,6 @@ const Container = styled.div`
   flex-direction: column;
   flex: 1;
   width: 100%;
-
-
 `;
 
 
