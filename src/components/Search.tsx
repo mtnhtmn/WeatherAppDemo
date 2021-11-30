@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import InputSearchIcon from '../svg/InputSearchIcon.svg?component';
+import NoResultsIcon from '../svg/NoResultsIcon.svg?component';
 
 const media = {
   mobile: '(max-width: 900px)',
@@ -137,7 +138,7 @@ const Search = function <T extends unknown>({
       </div>
 
       {open && containerRef && containerRef.current && (
-      <Window width={containerRef.current.clientWidth} top={containerRef.current.clientHeight + 7}>
+      <Window width={containerRef.current.clientWidth + 80} top={containerRef.current.clientHeight + 7} style={{marginLeft: '-40px'}}>
         <WindowInner>
           {data ? data.map((item: T, index) => (
             <WindowItem

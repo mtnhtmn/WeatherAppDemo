@@ -1,11 +1,12 @@
-import React, {FunctionComponent} from "react";
+import React from "react";
 import {TypedUseSelectorHook, useSelector} from "react-redux";
 import styled from "styled-components";
 import {RootState} from "../store/store";
 import CurrentWeather from "../components/dashboard/CurrentWeather";
-import HourlyForecastCarousel from "../components/dashboard/Carousel";
 import DailyForecast from "../components/dashboard/DailyForecast";
 import ForecastWidget from "../components/dashboard/ForecastWidget";
+import HourlyForecast from "../components/dashboard/Carousel";
+import SetUpLocationIcon from '../svg/SetUpLocationIcon.svg?component'
 
 
 const Container = styled.div`
@@ -30,6 +31,13 @@ const WeatherWrap = styled.div`
   margin-top: 300px;
 `;
 
+const SetUpLocationIconContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: -330px;
+`
+
 
 const DashboardPage = function () {
 
@@ -46,10 +54,12 @@ const DashboardPage = function () {
                     <WeatherWrap>
                         <CurrentWeather selectedCity={selectedCity} selectedWeatherData={selectedWeatherData}/>
                         <DailyForecast selectedForecast={selectedForecast}/>
-                        <HourlyForecastCarousel selectedHourlyForecast={selectedHourlyForecast}/>
+                        <HourlyForecast selectedHourlyForecast={selectedHourlyForecast}/>
                         <ForecastWidget selectedForecast={selectedForecast}/>
                     </WeatherWrap>
-                ) : null}
+                ) : <SetUpLocationIconContainer>
+                    <SetUpLocationIcon/>
+                </SetUpLocationIconContainer>}
             </WeatherWrap>
         </Container>
     );

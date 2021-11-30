@@ -4,6 +4,15 @@ import styled from "styled-components";
 import ForecastChart from "./ForecastChart";
 
 
+const ForecastChartWrapper = styled.div`
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 20px;
+  margin-top: 145px;
+  height: 500px;
+  color: white;
+
+`;
+
 const ForecastWidgetItemDay = styled.div`
   display: flex;
   flex-direction: column;
@@ -12,16 +21,6 @@ const ForecastWidgetItemDay = styled.div`
     background: rgba(255, 255, 255, 0.2);
     border-radius: 20px;
   }
-
-`;
-
-const ForecastChartWrapper = styled.div`
-  background: rgba(255, 255, 255, 0.3);
-  border-radius: 20px;
-  margin-top: 145px;
-  height: 500px;
-  color: white;
-
 `;
 
 const DailyForecastWidgetItemWrapper = styled.div`
@@ -54,7 +53,6 @@ const ForecastWidget = ({selectedForecast} : IProps) => {
             </div>
             <SunIcon/>
         </ForecastWidgetItemDay>
-
     ));
 
     return (
@@ -66,6 +64,7 @@ const ForecastWidget = ({selectedForecast} : IProps) => {
                 <ForecastChart selectedForecast={selectedForecast}/>
             </ForecastChartWrapper>
         </div>
+
     );
 };
 

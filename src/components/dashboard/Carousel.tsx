@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from "styled-components";
-import Carousel from 'react-multi-carousel';
+import Carousel, {SkipCallbackOptions, StateCallBack} from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import CarouselButtonRightIcon from '../../svg/ArrowButtonLeftIcon.svg?component'
 import CarouselButtonLeftIcon from '../../svg/ArrowButtonRightIcon.svg?component'
@@ -93,12 +93,15 @@ const responsive = {
     }
 };
 
-const ButtonGroup = ({ next, previous, goToSlide, ...rest }:any) => {
-    const { carouselState: { currentSlide } } = rest;
+interface ICarouselButtonProps {
+    previous: () => void;
+    next: () => void;
+}
+
+const ButtonGroup = ({ next, previous }:ICarouselButtonProps) => {
     return (
         <CarouselButtonsContainer>
-
-            <CarouselButtonRightStyle className={currentSlide === 0 ? 'disable' : ''} onClick={() => previous()}>
+            <CarouselButtonRightStyle  onClick={() => previous()}>
                 <CarouselButtonRightIcon/>
             </CarouselButtonRightStyle>
             <CarouselButtonLeftStyle onClick={() => next()}>
@@ -113,7 +116,7 @@ interface IProps {
 }
 
 
-const HourlyForecastCarousel = ({selectedHourlyForecast}: IProps) => {
+const HourlyForecast = ({selectedHourlyForecast}: IProps) => {
     const forecastIconNumberHandler = (iconNumber: number) => {
         if (iconNumber < 10) {
             return `0${iconNumber}`;
@@ -150,4 +153,4 @@ const HourlyForecastCarousel = ({selectedHourlyForecast}: IProps) => {
     );
 };
 
-export default HourlyForecastCarousel;
+export default HourlyForecast;

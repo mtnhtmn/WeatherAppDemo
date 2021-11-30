@@ -252,28 +252,22 @@ const Header = function ({isLightTheme, setIsLightTheme}: IProps) {
                             Favorites
                         </NavbarLink>
                     </NavbarLinksWrapper>
-                    <div>
-                        <Search<ICity>
-                            getKey={(city) => city.Key}
-                            inputValue={inputValue}
-                            onInputChange={setInputValue}
-                            data={cityData}
-                            onListItemClick={setSelectedCity}
-                            renderListItem={(city) => (
-                                <div style={{
-                                    padding: 20, display: "flex", alignItems: "center", height: 20
-                                }}
-                                >
-                                    {city.LocalizedName}
-                                    ,
-                                    <span style={{color: "grey", display: "inline-block"}}>
-                  {city.Country.LocalizedName}
-                </span>
-
-                                </div>
-                            )}
-                        />
-                    </div>
+                    <Search<ICity>
+                        getKey={(city) => city.Key}
+                        inputValue={inputValue}
+                        onInputChange={setInputValue}
+                        data={cityData}
+                        onListItemClick={setSelectedCity}
+                        renderListItem={(city) => (
+                            <div style={{
+                                padding: 20, display: "flex", alignItems: "center", height: 20
+                            }}>
+                                {city.LocalizedName}
+                                ,
+                                <span style={{color: "grey", display: "inline-block"}}>
+                                  {city.Country.LocalizedName}
+                                 </span>
+                            </div>)}/>
                     <MapLinkWrapper>
                         <MapIcon/>
                         <MapLink to="/map">
