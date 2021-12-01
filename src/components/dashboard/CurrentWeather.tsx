@@ -1,17 +1,20 @@
-import React from 'react';
+import React from "react";
 import styled from "styled-components";
-import Dots from "../../svg/Dots";
 import Cloud from "../../svg/Cloud";
-import {ICity} from "../../store/slices/citySlice";
-import {IWeatherData} from "../../store/slices/weatherSlice";
-import StarIconButton from '../../svg/StarIconButton.svg?component'
+import { ICity } from "../../store/slices/citySlice";
+import { IWeatherData } from "../../store/slices/weatherSlice";
+import StarIconButton from "../../svg/StarIconButton.svg?component";
 
 
-const CityWrap = styled.div`
+const CurrentWeatherContainer = styled.div`
   margin-top: 80px;
   position: relative;
   display: flex;
   flex-direction: column;
+  @media ${({ theme }) => theme.media.mobile} {
+    align-items: center;
+    margin-top: 0;
+  }
 `;
 
 const FavoriteButton = styled.button`
@@ -35,24 +38,33 @@ const FavoriteButton = styled.button`
     cursor: pointer;
   }
 
+  @media ${({ theme }) => theme.media.mobile} {
+    display: none;
+  }
+
 `;
 
-const Wrapper = styled.div`
+const WeatherDescription = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
 
 `;
 
 const CityName = styled.div`
+  font-weight: bold;
   font-style: normal;
   font-size: 50px;
   line-height: 34px;
   color: #FFFFFF;
   text-shadow: -2px 3px 1px rgba(0, 0, 0, 0.1);
+  @media ${({ theme }) => theme.media.mobile} {
+    font-size: 22px;
+  }
 
 `;
 
-const Temperature = styled.div`
+const TemperatureContainer = styled.div`
   display: flex;
   line-height: 135px;
 
@@ -90,54 +102,51 @@ const CurrentDate = styled.div`
 `;
 
 interface IProps {
-    selectedCity: ICity | null
-    selectedWeatherData: IWeatherData | null
+  selectedCity: ICity | null;
+  selectedWeatherData: IWeatherData | null;
 
 }
 
-const CurrentWeather = function({selectedCity,selectedWeatherData}: IProps) {
+const CurrentWeather = function({ selectedCity, selectedWeatherData }: IProps) {
 
 
-    const date = React.useMemo(() => {
-        if (selectedWeatherData) {
-            return new Date(selectedWeatherData?.LocalObservationDateTime).toDateString();
-        }
-        return null;
-    }, [selectedWeatherData]);
+  const date = React.useMemo(() => {
+    if (selectedWeatherData) {
+      return new Date(selectedWeatherData?.LocalObservationDateTime).toDateString();
+    }
+    return null;
+  }, [selectedWeatherData]);
 
 
-    return (
-    <div>
-        {selectedWeatherData && selectedCity ? (
-            <CityWrap>
-                <CityName>
-                    {selectedCity.LocalizedName}
-                </CityName>
-                <Dots/>
-                <Temperature>
-                    <Cloud/>
-                    <TemperatureNumber>
-                        {selectedWeatherData.Temperature.Metric.Value}
-                    </TemperatureNumber>
-                </Temperature>
-                <WeatherText>
-                    {selectedWeatherData.WeatherText}
-                </WeatherText>
-                <Wrapper>
-                    <CurrentDate>
-                        {date}
-                    </CurrentDate>
-                    <FavoriteButton>
-                        <StarIconButton/>
-                        Add to Favorites
-                    </FavoriteButton>
-                </Wrapper>
+  return selectedWeatherData && selectedCity ? (
+    <CurrentWeatherContainer>
+      <CityName>
+        {selectedCity.LocalizedName}
+      </CityName>
+      <TemperatureContainer>
+        <Cloud />
+        <TemperatureNumber>
+          {selectedWeatherData.Temperature.Metric.Value}
+        </TemperatureNumber>
+      </TemperatureContainer>
+      <WeatherDescription>
+        <div>
+          <WeatherText>
+            {selectedWeatherData.WeatherText}
+          </WeatherText>
+          <CurrentDate>
+            {date}
+          </CurrentDate>
+        </div>
+        <FavoriteButton>
+          <StarIconButton />
+          Add to Favorites
+        </FavoriteButton>
+      </WeatherDescription>
+    </CurrentWeatherContainer>
+  ) : null;
 
-            </CityWrap>
-        ) : null}
-    </div>
 
-    );
-}
+};
 
 export default CurrentWeather;

@@ -94,7 +94,7 @@ const WindowItem = styled.div`
 interface ISearchProps<T> {
   inputValue: string;
   onInputChange: (value: string) => void;
-  data: T[] | undefined;
+  data: T[] | null;
   renderListItem: (item: T) => JSX.Element
   onListItemClick: (item: T) => void;
   getKey: (item: T) => string | number;

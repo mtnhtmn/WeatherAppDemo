@@ -1,12 +1,13 @@
-import React from 'react';
-import styled from 'styled-components';
-import StarIcon from '../svg/StarIcon.svg?component';
-import SearchIcon from '../svg/SearchIcon.svg?component';
-import HomeIcon from '../svg/HomeIcon.svg?component';
+import React from "react";
+import styled from "styled-components";
+import StarIcon from "../svg/StarIcon.svg?component";
+import SearchIcon from "../svg/SearchIcon.svg?component";
+import HomeIcon from "../svg/HomeIcon.svg?component";
+import MobileMenuModal from "../ui/MobileMenuModal";
 
 const media = {
-    mobile: '(max-width: 900px)',
-    desktop: '(min-width: 900px)',
+  mobile: "(max-width: 900px)",
+  desktop: "(min-width: 900px)"
 };
 
 const FooterWrap = styled.div`
@@ -36,25 +37,25 @@ const FooterIconDivider = styled.div`
   height: 46px;
 `;
 
-const Footer = function () {
-    return (
-        <FooterWrap>
-            <FooterIconWrap>
-                <StarIcon/>
-                <p>Favorites</p>
-            </FooterIconWrap>
-            <FooterIconDivider/>
-            <FooterIconWrap>
-                <SearchIcon/>
-                <p>Search</p>
-            </FooterIconWrap>
-            <FooterIconDivider/>
-            <FooterIconWrap>
-                <HomeIcon/>
-                <p>Home</p>
-            </FooterIconWrap>
-        </FooterWrap>
-    );
+const Footer = function() {
+  return (
+    <FooterWrap>
+      <FooterIconWrap>
+        <StarIcon />
+        <p>Favorites</p>
+      </FooterIconWrap>
+      <FooterIconDivider />
+      <FooterIconWrap>
+        <SearchIcon />
+        <p>Search</p>
+      </FooterIconWrap>
+      <FooterIconDivider />
+      <FooterIconWrap>
+        <HomeIcon />
+        <p>Home</p>
+      </FooterIconWrap>
+    </FooterWrap>
+  );
 };
 
 export default Footer;

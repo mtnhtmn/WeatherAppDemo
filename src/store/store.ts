@@ -3,6 +3,7 @@ import cityReducer from './slices/citySlice';
 import weatherReducer from './slices/weatherSlice';
 import forecastReducer from './slices/forecastSlice';
 import hourlyForecastReducer from './slices/hourlyForecast';
+import uiReducer from './slices/uiSlice';
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     weatherReducer,
     forecastReducer,
     hourlyForecastReducer,
+    uiReducer,
   },
 });
 

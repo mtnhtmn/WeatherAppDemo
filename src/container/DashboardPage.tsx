@@ -9,26 +9,34 @@ import HourlyForecast from "../components/dashboard/Carousel";
 import SetUpLocationIcon from '../svg/SetUpLocationIcon.svg?component'
 
 
+
+
 const Container = styled.div`
-  width: 100%;
+  width: 100% ;
   display: flex;
   justify-content: center;
-  align-items: center;
-  margin-top: 93px;
+  margin-top: ${({ theme }) => theme.navbar.height.desktop};
   margin-right: auto;
   margin-left: auto;
   padding-right: 250px;
   padding-left: 250px;
-  height: calc(100% - 93px);
-  overflow: auto;
+  height: ${({ theme }) => `calc(100% - ${theme.navbar.height.desktop})`};
+  overflow-y: auto;
   overflow-x: hidden;
+  @media ${({ theme }) => theme.media.mobile} {
+    width: 100%;
+    padding-left: 0px;
+    padding-right: 0px;
+    margin-top: ${({ theme }) => theme.navbar.height.mobile};
+    height: ${({ theme }) => `calc(100% - ${theme.navbar.height.mobile})`};
+  }
+
 `;
 
 const WeatherWrap = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  margin-top: 300px;
 `;
 
 const SetUpLocationIconContainer = styled.div`
@@ -51,12 +59,12 @@ const DashboardPage = function () {
         <Container>
             <WeatherWrap>
                 {selectedWeatherData && selectedCity && selectedForecast ? (
-                    <WeatherWrap>
+                    <>
                         <CurrentWeather selectedCity={selectedCity} selectedWeatherData={selectedWeatherData}/>
-                        <DailyForecast selectedForecast={selectedForecast}/>
-                        <HourlyForecast selectedHourlyForecast={selectedHourlyForecast}/>
-                        <ForecastWidget selectedForecast={selectedForecast}/>
-                    </WeatherWrap>
+                         <DailyForecast selectedForecast={selectedForecast}/>
+                         <HourlyForecast selectedHourlyForecast={selectedHourlyForecast}/>
+                         <ForecastWidget selectedForecast={selectedForecast}/>
+                    </>
                 ) : <SetUpLocationIconContainer>
                     <SetUpLocationIcon/>
                 </SetUpLocationIconContainer>}
