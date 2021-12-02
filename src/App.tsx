@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { Route, Routes } from "react-router-dom";
 import { Provider } from "react-redux";
 import { QueryClient, QueryClientProvider } from "react-query";
-import styled, { createGlobalStyle, DefaultTheme, ThemeProvider } from "styled-components";
-import Blur from "./ui/Blur";
+import styled from "styled-components";
+import MenuBlur from "./ui/MenuBlur";
 import { store } from "./store/store";
 import FavoritePage from "./router/FavoritePage";
 import Header from "./components/header/Header";
@@ -12,6 +12,9 @@ import Footer from "./components/Footer";
 import MapPage from "./router/MapPage";
 import WeatherTheme from "./ui/WeatherTheme";
 import MobileMenuModal from "./ui/MobileMenuModal";
+import ForecastWidgetModal from "./ui/ForecastWidgetModal";
+import ForecastBlur from "./ui/ForecastBlur";
+import Blur from "./ui/Blur";
 
 
 const queryClient = new QueryClient();
@@ -30,7 +33,7 @@ const App = function() {
     <Provider store={store}>
       <QueryClientProvider client={queryClient}>
         <WeatherTheme>
-          <Blur />
+          <Blur/>
           <Container>
             <Header />
             <Routes>
@@ -40,6 +43,7 @@ const App = function() {
             </Routes>
             <Footer />
             <MobileMenuModal/>
+            <ForecastWidgetModal/>
           </Container>
         </WeatherTheme>
       </QueryClientProvider>

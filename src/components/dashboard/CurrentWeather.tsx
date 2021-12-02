@@ -76,6 +76,7 @@ const TemperatureNumber = styled.div`
   font-size: 73px;
   color: #FFFFFF;
   height: 120px;
+  
 
 `;
 
@@ -87,6 +88,10 @@ const WeatherText = styled.div`
   color: #FFFFFF;
   opacity: 0.6;
   text-shadow: -2px 3px 1px rgba(0, 0, 0, 0.1);
+  @media ${({ theme }) => theme.media.mobile} {
+    display: flex;
+    justify-content: center;
+  }
 
 
 `;

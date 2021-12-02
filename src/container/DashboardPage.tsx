@@ -1,18 +1,18 @@
 import React from "react";
-import {TypedUseSelectorHook, useSelector} from "react-redux";
+import { TypedUseSelectorHook, useSelector } from "react-redux";
 import styled from "styled-components";
-import {RootState} from "../store/store";
+import { RootState } from "../store/store";
 import CurrentWeather from "../components/dashboard/CurrentWeather";
 import DailyForecast from "../components/dashboard/DailyForecast";
 import ForecastWidget from "../components/dashboard/ForecastWidget";
 import HourlyForecast from "../components/dashboard/Carousel";
-import SetUpLocationIcon from '../svg/SetUpLocationIcon.svg?component'
-
-
+import SetUpLocationIcon from "../svg/SetUpLocationIcon.svg?component";
+import ForecastWidgetModal from "../ui/ForecastWidgetModal";
+import ForecastWidgetMobile from "../components/dashboard/ForecastWidgetMobile";
 
 
 const Container = styled.div`
-  width: 100% ;
+  width: 100%;
   display: flex;
   justify-content: center;
   margin-top: ${({ theme }) => theme.navbar.height.desktop};
@@ -43,34 +43,35 @@ const SetUpLocationIconContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: -330px;
-`
+
+`;
 
 
-const DashboardPage = function () {
+const DashboardPage = function() {
 
-    const useStore: TypedUseSelectorHook<RootState> = useSelector;
-    const selectedWeatherData = useStore((store) => store.weatherReducer.weatherData);
-    const selectedCity = useStore((store) => store.cityReducer.cityData);
-    const selectedForecast = useStore((store) => store.forecastReducer.forecastsData);
-    const selectedHourlyForecast = useStore((store) => store.hourlyForecastReducer.hourlyForecastData);
+  const useStore: TypedUseSelectorHook<RootState> = useSelector;
+  const selectedWeatherData = useStore((store) => store.weatherReducer.weatherData);
+  const selectedCity = useStore((store) => store.cityReducer.cityData);
+  const selectedForecast = useStore((store) => store.forecastReducer.forecastsData);
+  const selectedHourlyForecast = useStore((store) => store.hourlyForecastReducer.hourlyForecastData);
 
-    return (
-        <Container>
-            <WeatherWrap>
-                {selectedWeatherData && selectedCity && selectedForecast ? (
-                    <>
-                        <CurrentWeather selectedCity={selectedCity} selectedWeatherData={selectedWeatherData}/>
-                         <DailyForecast selectedForecast={selectedForecast}/>
-                         <HourlyForecast selectedHourlyForecast={selectedHourlyForecast}/>
-                         <ForecastWidget selectedForecast={selectedForecast}/>
-                    </>
-                ) : <SetUpLocationIconContainer>
-                    <SetUpLocationIcon/>
-                </SetUpLocationIconContainer>}
-            </WeatherWrap>
-        </Container>
-    );
+  return (
+    <Container>
+      <WeatherWrap>
+        {selectedWeatherData && selectedCity && selectedForecast ? (
+          <>
+            <CurrentWeather selectedCity={selectedCity} selectedWeatherData={selectedWeatherData} />
+            <DailyForecast selectedForecast={selectedForecast} />
+            <ForecastWidgetMobile />
+            <HourlyForecast selectedHourlyForecast={selectedHourlyForecast} />
+            <ForecastWidget selectedForecast={selectedForecast} />
+          </>
+        ) : <SetUpLocationIconContainer>
+          <SetUpLocationIcon />
+        </SetUpLocationIconContainer>}
+      </WeatherWrap>
+    </Container>
+  );
 };
 
 export default DashboardPage;

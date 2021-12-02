@@ -57,8 +57,6 @@ const MapLinkWrapper = styled.div`
   @media ${({ theme }) => theme.media.mobile} {
     display: none;
   }
-
-
 `;
 
 const MapLink = styled(NavLink)`

@@ -88,8 +88,8 @@ const responsive = {
         items: 2
     },
     mobile: {
-        breakpoint: { max: 464, min: 0 },
-        items: 1
+        breakpoint: { max: 600, min: 0 },
+        items: 4
     }
 };
 
@@ -98,7 +98,7 @@ interface ICarouselButtonProps {
     next: () => void;
 }
 
-const ButtonGroup = ({ next, previous }:ICarouselButtonProps) => {
+const ButtonGroup = function({ next, previous }:ICarouselButtonProps) {
     return (
         <CarouselButtonsContainer>
             <CarouselButtonRightStyle  onClick={() => previous()}>
@@ -109,14 +109,14 @@ const ButtonGroup = ({ next, previous }:ICarouselButtonProps) => {
             </CarouselButtonLeftStyle>
         </CarouselButtonsContainer>
     );
-};
+}
 
 interface IProps {
     selectedHourlyForecast: any
 }
 
 
-const HourlyForecast = ({selectedHourlyForecast}: IProps) => {
+const HourlyForecast = function({selectedHourlyForecast}: IProps) {
     const forecastIconNumberHandler = (iconNumber: number) => {
         if (iconNumber < 10) {
             return `0${iconNumber}`;
@@ -145,12 +145,12 @@ const HourlyForecast = ({selectedHourlyForecast}: IProps) => {
     ));
     return (
         <HourlyForecastWrapper>
-            <Carousel arrows={false} responsive={responsive}  centerMode={true} customButtonGroup={<ButtonGroup/>} renderButtonGroupOutside={true}>
+            <Carousel arrows={false} responsive={responsive}  centerMode customButtonGroup={<ButtonGroup/>} renderButtonGroupOutside>
                 {displayHourlyForecast}
             </Carousel>
         </HourlyForecastWrapper>
 
     );
-};
+}
 
 export default HourlyForecast;

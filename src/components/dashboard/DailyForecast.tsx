@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import styled from "styled-components";
 
 const ForecastWrapper = styled.div`
@@ -10,8 +10,15 @@ const ForecastWrapper = styled.div`
   justify-content: space-between;
   margin-top: 60px;
   margin-bottom: 100px;
+  @media ${({ theme }) => theme.media.mobile} {
+    border: none;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    height: 280px;
+  }
 `;
-
 
 
 const DailyForecastItemWrapper = styled.div`
@@ -21,14 +28,27 @@ const DailyForecastItemWrapper = styled.div`
   justify-content: space-around;
   align-items: center;
   padding: 0 30px 0 30px;
+  @media ${({ theme }) => theme.media.mobile} {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    flex: 1;
+    justify-content: space-between;
+    align-items: center;
+
+  }
+
 
 
 `;
 
-const ForecastItemDay = styled.div`
+const ForecastItemDayDesktop = styled.div`
   font-style: normal;
   font-weight: bold;
   font-size: 20px;
+  @media ${({ theme }) => theme.media.mobile} {
+    display: none;
+  }
 
 
 `;
@@ -36,6 +56,13 @@ const ForecastItemDay = styled.div`
 const ForecastItemPhrase = styled.span`
   font-weight: normal;
   font-size: 15px;
+  @media ${({ theme }) => theme.media.mobile} {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 28px;
+    padding-left: 5px;
+  }
 `;
 
 const ForecastIcon = styled.img`
@@ -44,13 +71,34 @@ const ForecastIcon = styled.img`
 
 `;
 
-const ForecastItemData = styled.div`
+const ForecastItemDataDesktop = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
   font-style: normal;
   font-weight: bold;
   font-size: 18px;
+  @media ${({ theme }) => theme.media.mobile} {
+    display: none;
+  }
+`;
+
+const ForecastItemDayMobile = styled.div`
+  display: flex;
+  align-items: center;
+
+  @media ${({ theme }) => theme.media.desktop} {
+    display: none;
+  }
+
+`;
+
+const ForecastItemDataMobile = styled.span`
+  display: flex;
+  align-items: center;
+  @media ${({ theme }) => theme.media.desktop} {
+    display: none;
+  }
 `;
 
 const ForecastItemMinTemperature = styled.span`
@@ -58,6 +106,12 @@ const ForecastItemMinTemperature = styled.span`
   font-weight: bold;
   font-size: 35px;
   line-height: 61px;
+  @media ${({ theme }) => theme.media.mobile} {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 22px;
+    line-height: 34px;
+  }
 `;
 
 const ForecastItemMaxTemperature = styled.span`
@@ -65,56 +119,85 @@ const ForecastItemMaxTemperature = styled.span`
   font-weight: normal;
   font-size: 20px;
   line-height: 38px;
+  @media ${({ theme }) => theme.media.mobile} {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 25px;
+  }
 
 `;
 
 interface IProps {
-    selectedForecast: any
+  selectedForecast: any;
 }
 
-const DailyForecast = ({selectedForecast}: IProps) => {
+const DailyForecast = function({ selectedForecast }: IProps) {
 
-    const forecastIconNumberHandler = (iconNumber: number) => {
-        if (iconNumber < 10) {
-            return `0${iconNumber}`;
-        }
-        return iconNumber;
-    };
+  const forecastIconNumberHandler = (iconNumber: number) => {
+    if (iconNumber < 10) {
+      return `0${iconNumber}`;
+    }
+    return iconNumber;
+  };
 
-    const displayForecast = selectedForecast.map((forecast: any, index: number) => (
-        <DailyForecastItemWrapper key={index}>
-            <ForecastItemDay>
-                {new Date(forecast.Date).toLocaleDateString("en-GB", {
-                    weekday: "short"
-                })}
-                -
-                <ForecastItemPhrase>
-                    {forecast.Day.IconPhrase}
-                </ForecastItemPhrase>
-            </ForecastItemDay>
-            <ForecastItemData>
+  const displayForecast = selectedForecast.map((forecast: any, index: number) => (
+    <DailyForecastItemWrapper key={index}>
+      <ForecastItemDayDesktop>
+        {new Date(forecast.Date).toLocaleDateString("en-GB", {
+          weekday: "short"
+        })}
+        -
+        <ForecastItemPhrase>
+          {forecast.Day.IconPhrase}
+        </ForecastItemPhrase>
+      </ForecastItemDayDesktop>
+      <ForecastItemDataDesktop>
                 <span>
                     <ForecastIcon
-                        src={`https://developer.accuweather.com/sites/default/files/${forecastIconNumberHandler(forecast.Day.Icon)}-s.png`}
-                        alt="Icon"/>
+                      src={`https://developer.accuweather.com/sites/default/files/${forecastIconNumberHandler(forecast.Day.Icon)}-s.png`}
+                      alt="Icon" />
                 </span>
-                <ForecastItemMinTemperature>
-                    {forecast.Temperature.Minimum.Value}
-                </ForecastItemMinTemperature>
-                -
-                <ForecastItemMaxTemperature>
-                    {forecast.Temperature.Maximum.Value}
-                </ForecastItemMaxTemperature>
-            </ForecastItemData>
-        </DailyForecastItemWrapper>
-    ));
+        <ForecastItemMinTemperature>
+          {forecast.Temperature.Minimum.Value}
+        </ForecastItemMinTemperature>
+        -
+        <ForecastItemMaxTemperature>
+          {forecast.Temperature.Maximum.Value}
+        </ForecastItemMaxTemperature>
+      </ForecastItemDataDesktop>
+      <ForecastItemDayMobile>
+          <span>
+                    <ForecastIcon
+                      src={`https://developer.accuweather.com/sites/default/files/${forecastIconNumberHandler(forecast.Day.Icon)}-s.png`}
+                      alt="Icon" />
+                </span>
+        {new Date(forecast.Date).toLocaleDateString("en-GB", {
+          weekday: "short"
+        })}
+         -
+        <ForecastItemPhrase>
+          {forecast.Day.IconPhrase}
+        </ForecastItemPhrase>
+      </ForecastItemDayMobile>
+      <ForecastItemDataMobile>
+        <ForecastItemMinTemperature>
+          {forecast.Temperature.Minimum.Value}
+        </ForecastItemMinTemperature>
+        -
+        <ForecastItemMaxTemperature>
+          {forecast.Temperature.Maximum.Value}
+        </ForecastItemMaxTemperature>
+      </ForecastItemDataMobile>
+    </DailyForecastItemWrapper>
+  ));
 
 
-    return (
-        <ForecastWrapper>
-            {displayForecast}
-        </ForecastWrapper>
-    );
+  return (
+    <ForecastWrapper>
+      {displayForecast}
+    </ForecastWrapper>
+  );
 };
 
 export default DailyForecast;

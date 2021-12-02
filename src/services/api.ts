@@ -3,7 +3,7 @@
 // oiU57u0vmT2469QR88to5Hgl18vpRAvt
 
 
-const KEY = 'QYhA7p4xz5lMx341gvMjtO6W88aOrQhY';
+const KEY = 'oiU57u0vmT2469QR88to5Hgl18vpRAvt';
 const BASE_URL = 'http://dataservice.accuweather.com'
 
 export const fetchGeoLocation = async (Latitude: number ,Longitude: number) => {

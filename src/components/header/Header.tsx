@@ -72,11 +72,11 @@ const Header = function() {
 
 
   React.useEffect(() => {
-    if (geolocation.latitude && geolocation.longitude) {
+    if (geolocation.longitude &&geolocation.latitude ) {
       getGeolocation();
       setSelectedCity(geolocationData);
     }
-  }, [getGeolocation, geolocation.longitude, setSelectedCity, geolocationData, geolocation.latitude]);
+  }, [getGeolocation, geolocation.longitude, setSelectedCity, geolocationData, geolocation.latitude, geolocation]);
 
   React.useEffect(() => {
     if (searchValue) {

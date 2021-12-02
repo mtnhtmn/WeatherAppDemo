@@ -3,7 +3,6 @@ import styled from "styled-components";
 import StarIcon from "../svg/StarIcon.svg?component";
 import SearchIcon from "../svg/SearchIcon.svg?component";
 import HomeIcon from "../svg/HomeIcon.svg?component";
-import MobileMenuModal from "../ui/MobileMenuModal";
 
 const media = {
   mobile: "(max-width: 900px)",

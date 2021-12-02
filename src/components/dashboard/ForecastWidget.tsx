@@ -1,6 +1,6 @@
 import React from 'react';
-import SunIcon from "../../svg/SunIcon.svg?component"
 import styled from "styled-components";
+import SunIcon from "../../svg/SunIcon.svg?component"
 import ForecastChart from "./ForecastChart";
 
 
@@ -10,6 +10,9 @@ const ForecastChartWrapper = styled.div`
   margin-top: 145px;
   height: 500px;
   color: white;
+  @media ${({ theme }) => theme.media.mobile} {
+    display: none;
+  }
 
 `;
 
@@ -35,7 +38,7 @@ interface IProps {
     selectedForecast: any
 }
 
-const ForecastWidget = ({selectedForecast} : IProps) => {
+const ForecastWidget = function({selectedForecast} : IProps) {
 
     const displayForecastWidget = selectedForecast.map((forecast: any, index: number) => (
 
@@ -66,6 +69,6 @@ const ForecastWidget = ({selectedForecast} : IProps) => {
         </div>
 
     );
-};
+}
 
 export default ForecastWidget;

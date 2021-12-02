@@ -26,7 +26,7 @@ export const forecastSlice = createSlice({
   reducers: {
     forecastReceived: (state, action: PayloadAction<IForecast[]>) => {
       state.forecastsData = action.payload;
-      action.payload.shift()
+      // action.payload.shift()
     }
   }
 });
