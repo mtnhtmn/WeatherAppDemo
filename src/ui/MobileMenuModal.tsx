@@ -7,6 +7,7 @@ import MobileMenuArrow from "../svg/MobileMenuArrow.svg?component";
 import LogoutMobileIcon from "../svg/LogoutMobileIcon.svg?component";
 import { AppDispatch, RootState } from "../store/store";
 import { toggleLightTheme, closeMobileMenu } from "../store/slices/uiSlice";
+import WeatherUnitToggle from "./WeatherUnitToggle";
 
 
 const MenuModalContainer = styled.div<{ isMenuOpen: boolean }>`
@@ -118,16 +119,7 @@ const MobileMenuModal = function() {
         <ChangeModeText>
           Change degree
         </ChangeModeText>
-        <ReactSwitchStyle
-          onHandleColor="#838BAA"
-          offHandleColor="#838BAA"
-          uncheckedIcon={<WiCelsius size={33} />}
-          checkedIcon={<WiFahrenheit size={33} />}
-          checked={degreeChecked}
-          onChange={handleDegreeChecked}
-          onColor="#FFFFFF"
-          offColor="#FFFFFF"
-        />
+        <WeatherUnitToggle/>
       </ChangeModeWrapper>
       <LogoutLinkWrapper>
         <LogoutMobileIcon />

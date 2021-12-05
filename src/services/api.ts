@@ -31,14 +31,14 @@ export const fetchWeather = async (cityKey : string) => {
   return data;
 };
 
-export const fetchForecast = async (cityKey: string) => {
-  const res = await fetch(`${BASE_URL}/forecasts/v1/daily/5day/${cityKey}?apikey=${KEY}&metric=true`);
+export const fetchForecast = async (cityKey: string, weatherUnit: 'Metric' | 'Imperial') => {
+  const res = await fetch(`${BASE_URL}/forecasts/v1/daily/5day/${cityKey}?apikey=${KEY}&metric=${weatherUnit === 'Metric'}`);
   const data = await res.json();
   return data;
 };
 
-export const fetchHourlyForecast = async (cityKey: string) => {
-  const res = await fetch(`${BASE_URL}/forecasts/v1/hourly/12hour/${cityKey}?apikey=${KEY}&metric=true`);
+export const fetchHourlyForecast = async (cityKey: string, weatherUnit: 'Metric' | 'Imperial') => {
+  const res = await fetch(`${BASE_URL}/forecasts/v1/hourly/12hour/${cityKey}?apikey=${KEY}&metric=${weatherUnit === 'Metric'}`);
   const data = await res.json();
   return data;
 };

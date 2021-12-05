@@ -7,7 +7,6 @@ import DailyForecast from "../components/dashboard/DailyForecast";
 import ForecastWidget from "../components/dashboard/ForecastWidget";
 import HourlyForecast from "../components/dashboard/Carousel";
 import SetUpLocationIcon from "../svg/SetUpLocationIcon.svg?component";
-import ForecastWidgetModal from "../ui/ForecastWidgetModal";
 import ForecastWidgetMobile from "../components/dashboard/ForecastWidgetMobile";
 
 

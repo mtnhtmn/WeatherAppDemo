@@ -18,6 +18,7 @@ interface IProps {
 
 const ForecastChart = function({ selectedForecast }: IProps) {
 
+
   const renderCustomBarLabel = ({ payload, x, y, width, height, value }) =>
     <text x={x + width / 2} y={y} fill="#666" textAnchor="middle" dy={-6}>{`value: ${value}`}</text>;
 

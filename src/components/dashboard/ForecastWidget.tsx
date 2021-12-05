@@ -1,7 +1,9 @@
 import React from 'react';
 import styled from "styled-components";
+import { TypedUseSelectorHook, useSelector } from "react-redux";
 import SunIcon from "../../svg/SunIcon.svg?component"
 import ForecastChart from "./ForecastChart";
+import { RootState } from "../../store/store";
 
 
 const ForecastChartWrapper = styled.div`
@@ -39,6 +41,8 @@ interface IProps {
 }
 
 const ForecastWidget = function({selectedForecast} : IProps) {
+
+
 
     const displayForecastWidget = selectedForecast.map((forecast: any, index: number) => (
 

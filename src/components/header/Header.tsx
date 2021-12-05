@@ -3,7 +3,7 @@ import { useQuery } from "react-query";
 import styled, { useTheme } from "styled-components";
 
 import useGeolocation from "react-hook-geolocation";
-import { useDispatch } from "react-redux";
+import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import {
   fetchCity, fetchForecast, fetchGeoLocation, fetchHourlyForecast, fetchWeather
 } from "../../services/api";
@@ -13,7 +13,7 @@ import { forecastReceived, IForecast } from "../../store/slices/forecastSlice";
 
 import { hourlyForecastReceived } from "../../store/slices/hourlyForecast";
 import HeaderMobile from "./HeaderMobile";
-import { AppDispatch } from "../../store/store";
+import { AppDispatch, RootState } from "../../store/store";
 import HeaderDesktop from "./HeaderDesktop";
 
 
@@ -39,6 +39,9 @@ const Navbar = styled.div`
 `;
 
 const Header = function() {
+
+  const useStore: TypedUseSelectorHook<RootState> = useSelector;
+  const weatherUnit = useStore((state) => state.uiReducer.weatherUnit);
   const [searchValue, setSearchValue] = useState("");
   const dispatch = useDispatch<AppDispatch>();
   const [selectedCity, setSelectedCity] = useState<ICity | null>(null);
@@ -55,11 +58,11 @@ const Header = function() {
   const {
     data: cityForecastData,
     refetch: getForecast
-  } = useQuery<any, any, { DailyForecasts: IForecast[] }>("cityForecast", () => selectedCity && fetchForecast(selectedCity.Key), { enabled: false });
+  } = useQuery<any, any, { DailyForecasts: IForecast[] }>("cityForecast", () => selectedCity && fetchForecast(selectedCity.Key, weatherUnit), { enabled: false });
   const {
     data: cityHourlyForecastData,
     refetch: getHourlyForecast
-  } = useQuery("cityHourlyForecast", () => selectedCity && fetchHourlyForecast(selectedCity.Key), { enabled: false });
+  } = useQuery("cityHourlyForecast", () => selectedCity && fetchHourlyForecast(selectedCity.Key, weatherUnit), { enabled: false });
   const {
     data: geolocationData,
     refetch: getGeolocation
@@ -67,10 +70,7 @@ const Header = function() {
 
   console.log(geolocation);
   console.log(geolocationData);
-
-
-
-
+  console.log('watherData', cityWeatherData);
 
   React.useEffect(() => {
     if (geolocation.longitude &&geolocation.latitude ) {
@@ -90,7 +90,7 @@ const Header = function() {
       getForecast();
       getHourlyForecast();
     }
-  }, [getCityWeather, getForecast, getHourlyForecast, selectedCity]);
+  }, [getCityWeather, getForecast, getHourlyForecast, selectedCity, weatherUnit]);
   React.useEffect(() => {
     if (cityWeatherData && selectedCity && cityForecastData && cityHourlyForecastData) {
 

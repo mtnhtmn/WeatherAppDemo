@@ -1,16 +1,19 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { action } from "@storybook/addon-actions";
 
 
 interface IUiState {
   isLightTheme: boolean
   isMenuOpen: boolean
   isForecastWidgetOpen: boolean
+  weatherUnit: 'Metric' | 'Imperial'
 }
 
 const initialState: IUiState = {
   isLightTheme: true,
   isMenuOpen: false,
-  isForecastWidgetOpen: false
+  isForecastWidgetOpen: false,
+  weatherUnit: 'Metric'
 };
 
 export const uiSlice = createSlice({
@@ -31,10 +34,14 @@ export const uiSlice = createSlice({
     },
     openForecastWidget: (state) => {
       state.isForecastWidgetOpen = true
+    },
+    setWeatherUnit: (state, action:PayloadAction<'Metric' | 'Imperial'>) => {
+      state.weatherUnit = action.payload
     }
+
   }
 });
 
-export const { toggleLightTheme,closeMobileMenu,openMobileMenu,closeForecastWidget,openForecastWidget } = uiSlice.actions;
+export const { toggleLightTheme,closeMobileMenu,openMobileMenu,closeForecastWidget,openForecastWidget,setWeatherUnit } = uiSlice.actions;
 
 export default uiSlice.reducer;

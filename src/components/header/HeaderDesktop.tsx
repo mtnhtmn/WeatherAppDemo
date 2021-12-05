@@ -14,6 +14,7 @@ import HomeIcon from "../../svg/HomeIcon.svg?component";
 import MapIcon from "../../svg/MapIcon.svg?component";
 import LogoutIcon from "../../svg/LogoutIcon.svg?component";
 import StarIcon from '../../svg/StarIcon.svg?component'
+import WeatherUnitToggle from "../../ui/WeatherUnitToggle";
 
 
 const WeatherAppLogoWrapper = styled.div`
@@ -121,13 +122,10 @@ interface IProps {
 const HeaderDesktop = function({cityData,searchValue, setSearchValue,setSelectedCity} : IProps) {
   const useStore: TypedUseSelectorHook<RootState> = useSelector;
   const dispatch = useDispatch<AppDispatch>();
-  const [degreeChecked, setDegreeChecked] = useState(false);
   const isLightTheme = useStore((state) => state.uiReducer.isLightTheme);
 
 
-  const handleDegreeChecked = () => {
-    setDegreeChecked(!degreeChecked);
-  };
+
 
   const handleDarkLightSwitch = () => {
     dispatch(toggleLightTheme());
@@ -179,16 +177,6 @@ const HeaderDesktop = function({cityData,searchValue, setSearchValue,setSelected
           <ReactSwitchStyle
             onHandleColor="#838BAA"
             offHandleColor="#838BAA"
-            uncheckedIcon={<WiCelsius size={33} />}
-            checkedIcon={<WiFahrenheit size={33} />}
-            checked={degreeChecked}
-            onChange={handleDegreeChecked}
-            onColor="#FFFFFF"
-            offColor="#FFFFFF"
-          />
-          <ReactSwitchStyle
-            onHandleColor="#838BAA"
-            offHandleColor="#838BAA"
             uncheckedIcon={<IoMoonOutline size={25} />}
             checkedIcon={<FiSun size={20} />}
             checked={isLightTheme}
@@ -196,6 +184,7 @@ const HeaderDesktop = function({cityData,searchValue, setSearchValue,setSelected
             onColor="#FFFFFF"
             offColor="#FFFFFF"
           />
+          <WeatherUnitToggle/>
         </SwitchWrapper>
 
         <MapLinkWrapper>

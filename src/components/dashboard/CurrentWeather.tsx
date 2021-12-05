@@ -1,9 +1,11 @@
 import React from "react";
 import styled from "styled-components";
+import { TypedUseSelectorHook, useSelector } from "react-redux";
 import Cloud from "../../svg/Cloud";
 import { ICity } from "../../store/slices/citySlice";
 import { IWeatherData } from "../../store/slices/weatherSlice";
 import StarIconButton from "../../svg/StarIconButton.svg?component";
+import { RootState } from "../../store/store";
 
 
 const CurrentWeatherContainer = styled.div`
@@ -114,6 +116,10 @@ interface IProps {
 
 const CurrentWeather = function({ selectedCity, selectedWeatherData }: IProps) {
 
+  const useStore: TypedUseSelectorHook<RootState> = useSelector;
+  const weatherUnit = useStore((state) => state.uiReducer.weatherUnit);
+
+
 
   const date = React.useMemo(() => {
     if (selectedWeatherData) {
@@ -131,7 +137,7 @@ const CurrentWeather = function({ selectedCity, selectedWeatherData }: IProps) {
       <TemperatureContainer>
         <Cloud />
         <TemperatureNumber>
-          {selectedWeatherData.Temperature.Metric.Value}
+          {selectedWeatherData.Temperature[weatherUnit].Value}
         </TemperatureNumber>
       </TemperatureContainer>
       <WeatherDescription>
