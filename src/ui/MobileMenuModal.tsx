@@ -6,7 +6,7 @@ import { FiSun, IoMoonOutline, WiCelsius, WiFahrenheit } from "react-icons/all";
 import MobileMenuArrow from "../svg/MobileMenuArrow.svg?component";
 import LogoutMobileIcon from "../svg/LogoutMobileIcon.svg?component";
 import { AppDispatch, RootState } from "../store/store";
-import { toggleLightTheme, toggleMobileMenu } from "../store/slices/uiSlice";
+import { toggleLightTheme, closeMobileMenu } from "../store/slices/uiSlice";
 
 
 const MenuModalContainer = styled.div<{ isMenuOpen: boolean }>`
@@ -95,7 +95,7 @@ const MobileMenuModal = function() {
     <MenuModalContainer isMenuOpen={isMenuOpen}>
       <Header>
         <h2>Menu</h2>
-        <div onClick={() => dispatch(toggleMobileMenu())}>
+        <div onClick={() => dispatch(closeMobileMenu())}>
           <MobileMenuArrow />
         </div>
       </Header>

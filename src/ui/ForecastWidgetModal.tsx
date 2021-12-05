@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store/store";
 import MobileMenuArrow from '../svg/MobileMenuArrow.svg?component'
-import { toggleForecastWidget } from "../store/slices/uiSlice";
+import { closeForecastWidget } from "../store/slices/uiSlice";
 
 
 
@@ -41,7 +41,7 @@ const ForecastWidgetModal = function() {
         <h2>
           5-days forecast
         </h2>
-        <div onClick={() => dispatch(toggleForecastWidget())}>
+        <div onClick={() => dispatch(closeForecastWidget())}>
           <MobileMenuArrow/>
         </div>
       </Header>

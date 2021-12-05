@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import {useDispatch } from "react-redux";
-import { toggleMobileMenu } from '../../store/slices/uiSlice'
+import { openMobileMenu } from '../../store/slices/uiSlice'
 import MobileMenu from "../../svg/MobileMenu.svg?component";
 import StarIcon from '../../svg/StarIcon.svg?component'
 import { AppDispatch } from "../../store/store";
@@ -26,7 +26,7 @@ const HeaderMobile = function() {
   return (
     <HeaderMobileContainer>
       <StarIcon />
-      <div onClick={() => dispatch(toggleMobileMenu())}>
+      <div onClick={() => dispatch(openMobileMenu())}>
         <MobileMenu  />
       </div>
     </HeaderMobileContainer>

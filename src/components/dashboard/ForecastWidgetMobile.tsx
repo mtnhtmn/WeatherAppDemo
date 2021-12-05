@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import {useDispatch } from "react-redux";
-import { toggleForecastWidget } from '../../store/slices/uiSlice'
+import { openForecastWidget } from '../../store/slices/uiSlice'
 import { AppDispatch } from "../../store/store";
 
 
@@ -40,7 +40,7 @@ const ForecastWidgetMobile = function() {
 
   return (
     <HeaderMobileContainer>
-      <div onClick={() => dispatch(toggleForecastWidget())}>
+      <div onClick={() => dispatch(openForecastWidget())}>
         <ForecastWidgetButton>
           5 Days Forecast
         </ForecastWidgetButton>

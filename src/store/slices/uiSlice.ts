@@ -20,15 +20,21 @@ export const uiSlice = createSlice({
     toggleLightTheme: (state) => {
       state.isLightTheme = !state.isLightTheme
     },
-    toggleMobileMenu: (state) => {
-      state.isMenuOpen = !state.isMenuOpen
+    closeMobileMenu: (state) => {
+      state.isMenuOpen = false
     },
-    toggleForecastWidget: (state) => {
-      state.isForecastWidgetOpen = !state.isForecastWidgetOpen
+    openMobileMenu: (state) => {
+      state.isMenuOpen = true
+    },
+    closeForecastWidget: (state) => {
+      state.isForecastWidgetOpen = false
+    },
+    openForecastWidget: (state) => {
+      state.isForecastWidgetOpen = true
     }
   }
 });
 
-export const { toggleLightTheme,toggleMobileMenu,toggleForecastWidget } = uiSlice.actions;
+export const { toggleLightTheme,closeMobileMenu,openMobileMenu,closeForecastWidget,openForecastWidget } = uiSlice.actions;
 
 export default uiSlice.reducer;

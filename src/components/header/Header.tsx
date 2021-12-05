@@ -65,6 +65,7 @@ const Header = function() {
     refetch: getGeolocation
   } = useQuery("geolocation", () => fetchGeoLocation(geolocation.latitude, geolocation.longitude), { enabled: false });
 
+  console.log(geolocation);
   console.log(geolocationData);
 
 
